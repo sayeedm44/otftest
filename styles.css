@@ -83,10 +83,6 @@ button:hover {
     height: auto; 
 }
 
-input[type="text"],
-select { /*  This targets both text inputs and dropdowns */
-  width: 250px; /* Replace with the desired width in pixels */
-}
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
