@@ -44,10 +44,7 @@ input, select, button, textarea {
     transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition */
 }
 
-input:focus, select:focus, textarea:focus {
-    border-color: #007bff; /* Blue border on focus */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Soft blue glow */
-}
+
 
 button {
     background-color: #007bff; /* Blue button */
