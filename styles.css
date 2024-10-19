@@ -1,0 +1,117 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #e9ecef; /* Light gray background */
+}
+
+.container {
+    max-width: 800px; /* Increased width for a more spacious layout */
+    margin: auto;
+    padding: 30px; /* Increased padding for a more open feel */
+    background: linear-gradient(135deg, #ffffff, #f0f0f0); /* Subtle gradient */
+    border-radius: 12px; /* More rounded corners */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); /* Deeper shadow for depth */
+    overflow: hidden; 
+}
+
+h1, h2 {
+    text-align: center;
+    color: #343a40; /* Darker text for better contrast */
+}
+
+h1 {
+    font-size: 2.5em; /* Larger main title */
+    margin-bottom: 20px; /* Spacing below the title */
+}
+
+h2 {
+    font-size: 1.8em; /* Slightly larger sub-titles */
+    margin-top: 30px; /* More space above sub-titles */
+    margin-bottom: 15px; /* Space below sub-titles */
+}
+
+label {
+    font-weight: bold; /* Bold labels for emphasis */
+}
+
+input, select, button, textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px; /* Increased padding for inputs */
+    border: 1px solid #ced4da; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition */
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #007bff; /* Blue border on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Soft blue glow */
+}
+
+button {
+    background-color: #007bff; /* Blue button */
+    color: white;
+    padding: 12px; /* Increased padding for buttons */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1.1em; /* Larger font size */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.cabin-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.cabin-details {
+    flex: 1 1 300px; 
+}
+
+.cabin-image {
+    flex: 0 0 250px; 
+    margin-left: 20px; 
+}
+
+.cabin-image img {
+    width: 100%; 
+    height: auto; 
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .cabin-container {
+        flex-direction: column; 
+    }
+
+    .cabin-image {
+        margin-left: 0; 
+        margin-top: 15px; 
+    }
+
+    .cabin-details {
+        margin-bottom: 15px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px; 
+    }
+
+    button {
+        padding: 10px; /* Adjust button size */
+    }
+
+    label, input, select, button, textarea {
+        font-size: 14px; 
+    }
+}
