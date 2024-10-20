@@ -94,6 +94,15 @@ button:hover {
     .cabin-details {
         margin-bottom: 15px; 
     }
+
+    /* Styles for screens smaller than 768px */
+    .customer-details-form {
+        display: flex;
+        flex-direction: column;
+    }
+    input {
+        width: 100%; /* Make input fields span the full width */
+    }
 }
 
 @media (max-width: 480px) {
