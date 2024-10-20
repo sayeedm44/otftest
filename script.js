@@ -67,7 +67,7 @@ function downloadPDF() {
             `Customer Name: ${customerName}`,
             `Area: ${area}`,
             `City: ${city}`,
-            `No of Floors: ${floors}`,
+            `floors: ${floors}`,
             `Model: ${model}`,
             `Sales Person: ${salesPerson}`,
             `Team Leader: ${teamLeader
