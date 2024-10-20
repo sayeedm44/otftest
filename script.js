@@ -61,10 +61,13 @@ function downloadPDF() {
         doc.setFontSize(16);
         doc.text('Brio Elevators OTF Form', 60, 20);
         doc.setFontSize(12);
-        doc.text(`Customer Name: ${customerName}`, 10, 40);
-        doc.text(`Area: ${area}`, 10, 50);
-        doc.text(`City: ${city}`, 10, 60);
-        doc.text(`No of Floors: ${floors}`, 10, 70);
-        doc.text(`Model: ${model}`, 10, 80);
-        doc.text(`Sales Person: ${salesPerson}`, 10, 90);
-        doc.text(`Team Leader: ${teamLeader}`, 10, 100
+        
+        // Create an array of all the data to be added
+        const formData = [
+            `Customer Name: ${customerName}`,
+            `Area: ${area}`,
+            `City: ${city}`,
+            `No of Floors: ${floors}`,
+            `Model: ${model}`,
+            `Sales Person: ${salesPerson}`,
+            `Team Leader: ${teamLeader
