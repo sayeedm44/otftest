@@ -205,7 +205,7 @@
         <option value="Spot Light">collapsable Doors</option>
       </select>
     </div>
-    <label for="DoorOpening">Door Opening:</label>
+    <label for="DoorOpening">Door Opening (in mm):</label>
     <input type="text" id="DoorOpening" name="DoorOpening">
 
     <div>
@@ -272,6 +272,41 @@
     <textarea id="remarks" name="remarks"></textarea>
 
 
+    <h2>Terms of Sale</h2>
+    <h3>Scope of Work</h3>
+    <div>
+      <label for="Transportation">Transportation:</label><br>
+      <select id="Transportation" name="Transportation">
+        <option value="Brio">Brio</option>
+        <option value="customer">Customer</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="UnloadingMaterialatSite">Unloading Material at Site:</label><br>
+      <select id="copLopColor" name="copLopColor">
+        <option value="Brio">Brio</option>
+        <option value="customer">Customer</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="authentication">Authentication:</label><br>
+      <select id="authentication" name="authentication">
+        <option value="rfid">RFID</option>
+        <option value="pin">PIN</option>
+        <option value="authenticationNone">None</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="authenticationNeed">Authentication Need:</label><br>
+      <input type="text" id="authenticationNeed" name="authenticationNeed"><br>
+    </div>
+
+    <label for="remarks">Additional Remarks:</label>
+    <textarea id="remarks" name="remarks"></textarea>
+    
     <h2>Upload Photos</h2>
       <p>Please hold down the <strong>Ctrl</strong> (or <strong>Cmd</strong> on Mac) key to select multiple images.</p>
       <label for="buildingPhotos">Building/Site:</label>
