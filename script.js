@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.setFontSize(16);
     const pageWidth = doc.internal.pageSize.getWidth();
     const titleXPosition = pageWidth / 2; // Center X position
-    const titleYPosition = 45; // Y position slightly below the logo
+    const titleYPosition = 20; // Y position slightly below the logo
 
     // Add centered title text below the logo
     doc.text(titleText, titleXPosition, titleYPosition, { align: "center" });
