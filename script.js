@@ -29,10 +29,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const initialContentYPosition = 50; // Position to start text below the logo
     let yPosition = initialContentYPosition;
 
-    // Add title and form data to PDF
+    // Center "Brio Elevators OTF Form" horizontally
+    const titleText = "Brio Elevators OTF Form";
     doc.setFontSize(16);
-    doc.text("Brio Elevators OTF Form", 10, yPosition);
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const titleXPosition = (pageWidth - doc.getTextWidth(titleText)) / 2; // Center X position
+    doc.text(titleText, titleXPosition, yPosition);
     yPosition += 10;
+
     doc.setFontSize(12);
     doc.text("Sales Team & Customer Details", 10, yPosition);
     yPosition += 10;
