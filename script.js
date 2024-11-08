@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const salesTeamText = "Sales Team";
     doc.setFontSize(14);  // Set a slightly smaller font size for this heading
     const salesTeamXPosition = pageWidth / 2; // Center X position
-    const salesTeamYPosition = yPosition + 20;  // Slightly below the title
+    const salesTeamYPosition = yPosition + 10;  // Reduce space to 10px between title and "Sales Team"
     doc.text(salesTeamText, salesTeamXPosition, salesTeamYPosition, { align: "center" });
 
     // Update yPosition to start below the "Sales Team" heading
