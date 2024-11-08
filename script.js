@@ -38,6 +38,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // Start content below the title
     let yPosition = titleYPosition + 10; // Adjusted to leave space below the title
 
+    // Centered Sales Team heading below the title
+    const salesTeamText = "Sales Team";
+    doc.setFontSize(14);  // Set a slightly smaller font size for this heading
+    const salesTeamXPosition = pageWidth / 2; // Center X position
+    const salesTeamYPosition = yPosition + 20;  // Slightly below the title
+    doc.text(salesTeamText, salesTeamXPosition, salesTeamYPosition, { align: "center" });
+
+    // Update yPosition to start below the "Sales Team" heading
+    yPosition = salesTeamYPosition + 10;
+
     doc.setFontSize(12);
     doc.text("Sales Team & Customer Details", 10, yPosition);
     yPosition += 10;
