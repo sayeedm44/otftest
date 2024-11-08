@@ -25,14 +25,18 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add the logo to the first page
     addLogoToPage();
 
+    // Initial Y position for content below the logo
+    let yPosition = 50; // Start below the logo
+
     // Add title and form data to PDF
     doc.setFontSize(16);
-    doc.text("Brio Elevators OTF Form", 10, 50);
+    doc.text("Brio Elevators OTF Form", 10, yPosition);
+    yPosition += 10;
     doc.setFontSize(12);
-    doc.text("Sales Team & Customer Details", 10, 60);
+    doc.text("Sales Team & Customer Details", 10, yPosition);
+    yPosition += 10;
 
     // Collect and format form data for the PDF
-    let yPosition = 70; // Starting Y position for form content
     const formFields = document.querySelectorAll("input, select, textarea");
 
     formFields.forEach((field) => {
@@ -46,13 +50,11 @@ document.addEventListener("DOMContentLoaded", function () {
       doc.text(`${labelText}: ${fieldValue}`, 10, yPosition);
       yPosition += 10;
 
-      // Handle page overflow and add logo to each new page
+      // Handle page overflow and reset position to start below the logo on new pages
       if (yPosition > 280) {
         doc.addPage();
-        yPosition = 10;
-
-        // Add logo to the new page
-        addLogoToPage();
+        addLogoToPage(); // Add logo to the new page
+        yPosition = 50;  // Reset yPosition to start below the logo on new pages
       }
     });
 
