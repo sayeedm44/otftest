@@ -18,15 +18,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // Helper function to add the logo to the current page
     function addLogoToPage() {
       if (logo) {
-        doc.addImage(logo, "PNG", 10, 10, 30, 30); // Adjust position and size as needed
+        doc.addImage(logo, "PNG", 10, 10, 30, 30); // Fixed logo position on each page
       }
     }
 
     // Add the logo to the first page
     addLogoToPage();
 
-    // Initial Y position for content below the logo
-    let yPosition = 50; // Start below the logo
+    // Define the initial content position below the logo
+    const initialContentYPosition = 50; // Position to start text below the logo
+    let yPosition = initialContentYPosition;
 
     // Add title and form data to PDF
     doc.setFontSize(16);
@@ -50,11 +51,11 @@ document.addEventListener("DOMContentLoaded", function () {
       doc.text(`${labelText}: ${fieldValue}`, 10, yPosition);
       yPosition += 10;
 
-      // Handle page overflow and reset position to start below the logo on new pages
+      // Handle page overflow and reset content position for new pages
       if (yPosition > 280) {
-        doc.addPage();
-        addLogoToPage(); // Add logo to the new page
-        yPosition = 50;  // Reset yPosition to start below the logo on new pages
+        doc.addPage(); // Add a new page
+        addLogoToPage(); // Add the logo at the top of the new page
+        yPosition = initialContentYPosition; // Reset yPosition to start below the logo
       }
     });
 
