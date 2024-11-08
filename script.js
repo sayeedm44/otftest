@@ -42,15 +42,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const salesTeamText = "Sales Team";
     doc.setFontSize(14);  // Set a slightly smaller font size for this heading
     const salesTeamXPosition = pageWidth / 2; // Center X position
-    const salesTeamYPosition = yPosition + 5;  // Reduce space to 5px between title and "Sales Team"
+    const salesTeamYPosition = yPosition + 5;  // Reduced space to 5px between title and "Sales Team"
     doc.text(salesTeamText, salesTeamXPosition, salesTeamYPosition, { align: "center" });
 
     // Update yPosition to start below the "Sales Team" heading
     yPosition = salesTeamYPosition + 10;
-
-    doc.setFontSize(12);
-    doc.text("Sales Team & Customer Details", 10, yPosition);
-    yPosition += 10;
 
     // Collect and format form data for the PDF
     const formFields = document.querySelectorAll("input, select, textarea");
