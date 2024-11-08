@@ -57,10 +57,10 @@ document.addEventListener("DOMContentLoaded", function () {
       yPosition += 10;
 
       // Handle page overflow and reset content position for new pages
-      if (yPosition > 280) {
+      if (yPosition > 250) {  // Reduce the threshold to leave more space for the logo
         doc.addPage(); // Add a new page
         addLogoToPage(); // Add the logo at the top of the new page
-        yPosition = 35; // Reset yPosition to start below the logo
+        yPosition = 50; // Adjust yPosition to start below the logo, leaving 50px space
       }
     });
 
