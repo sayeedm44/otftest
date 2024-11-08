@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   async function downloadPDF() {
     const doc = new jsPDF();
 
-    // Load the logo as a Base64 image
+    // Load the logo once and store it as a Base64 image
     const logo = await loadLogo("logo.png");
 
     // Retrieve form field values for the custom PDF title
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const model = document.getElementById("model").value || "Model";
     const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
 
-    // Helper function to add the logo on the current page
+    // Helper function to add the logo to the current page
     function addLogoToPage() {
       if (logo) {
         doc.addImage(logo, "PNG", 10, 10, 30, 30); // Adjust position and size as needed
