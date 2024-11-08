@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.setFontSize(16);
     const pageWidth = doc.internal.pageSize.getWidth();
     const titleXPosition = pageWidth / 2; // Center X position
-    const titleYPosition = 20; // Y position slightly below the logo
+    const titleYPosition = 30; // Y position slightly below the logo
 
     // Add centered title text below the logo
     doc.text(titleText, titleXPosition, titleYPosition, { align: "center" });
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (yPosition > 280) {
         doc.addPage(); // Add a new page
         addLogoToPage(); // Add the logo at the top of the new page
-        yPosition = 20; // Reset yPosition to start below the logo
+        yPosition = 30; // Reset yPosition to start below the logo
       }
     });
 
