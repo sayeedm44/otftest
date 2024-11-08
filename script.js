@@ -15,10 +15,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const model = document.getElementById("model").value || "Model";
     const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
 
-    // Add the logo image to the PDF (top-left corner)
-    if (logo) {
-      doc.addImage(logo, "PNG", 10, 10, 30, 30); // Adjust position and size as needed
+    // Helper function to add the logo on the current page
+    function addLogoToPage() {
+      if (logo) {
+        doc.addImage(logo, "PNG", 10, 10, 30, 30); // Adjust position and size as needed
+      }
     }
+
+    // Add the logo to the first page
+    addLogoToPage();
 
     // Add title and form data to PDF
     doc.setFontSize(16);
@@ -41,10 +46,13 @@ document.addEventListener("DOMContentLoaded", function () {
       doc.text(`${labelText}: ${fieldValue}`, 10, yPosition);
       yPosition += 10;
 
-      // Handle page overflow
+      // Handle page overflow and add logo to each new page
       if (yPosition > 280) {
         doc.addPage();
         yPosition = 10;
+
+        // Add logo to the new page
+        addLogoToPage();
       }
     });
 
