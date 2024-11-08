@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (yPosition > 280) {
         doc.addPage(); // Add a new page
         addLogoToPage(); // Add the logo at the top of the new page
-        yPosition = 50; // Reset yPosition to start below the logo
+        yPosition = 20; // Reset yPosition to start below the logo
       }
     });
 
