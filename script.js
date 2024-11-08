@@ -25,19 +25,18 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add the logo to the first page
     addLogoToPage();
 
-    // Define the center of the page for the title text
+    // Center the title below the logo
     const titleText = "Brio Elevators OTF Form";
     doc.setFontSize(16);
     const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
     const titleXPosition = pageWidth / 2; // Center X position
-    const titleYPosition = pageHeight / 2; // Center Y position
+    const titleYPosition = 50; // Position below the logo (logo is at Y = 10 with height 30)
 
-    // Add centered title text
+    // Add centered title text below the logo
     doc.text(titleText, titleXPosition, titleYPosition, { align: "center" });
 
     // Start content below the title
-    let yPosition = titleYPosition + 20; // Adjusted to leave space below the title
+    let yPosition = titleYPosition + 10; // Adjusted to leave space below the title
 
     doc.setFontSize(12);
     doc.text("Sales Team & Customer Details", 10, yPosition);
