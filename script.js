@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const fieldValue = field.value || "N/A";
 
       // Add each field label and value to the PDF
-      doc.text(`${labelText}: ${fieldValue}`, 10, yPosition);
+      doc.text(`${labelText.replace(/:$/, '')}: ${fieldValue}`, 10, yPosition);
       yPosition += 10;
 
       // Handle page overflow and reset content position for new pages
