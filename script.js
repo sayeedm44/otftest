@@ -48,6 +48,26 @@ document.addEventListener("DOMContentLoaded", function () {
     // Update yPosition to start below the "Sales Team" heading
     yPosition = salesTeamYPosition + 10;
 
+    // Add Sales Person, Team Leader Involved, Referred by fields
+    const salesPerson = "Sales Person: John Doe";  // Example value, replace with dynamic value if needed
+    const teamLeader = "Team Leader Involved: Jane Smith"; // Example value, replace with dynamic value if needed
+    const referredBy = "Referred by: Referral Name"; // Example value, replace with dynamic value if needed
+    doc.text(salesPerson, 10, yPosition);
+    yPosition += 10;
+    doc.text(teamLeader, 10, yPosition);
+    yPosition += 10;
+    doc.text(referredBy, 10, yPosition);
+    yPosition += 15;  // Add extra space after these fields
+
+    // Centered Customer Details heading below the "Sales Team" section
+    const customerDetailsText = "Customer Details";
+    doc.setFontSize(14);
+    const customerDetailsXPosition = pageWidth / 2; // Center X position
+    doc.text(customerDetailsText, customerDetailsXPosition, yPosition, { align: "center" });
+
+    // Update yPosition to start below the "Customer Details" heading
+    yPosition += 10;
+
     // Collect and format form data for the PDF
     const formFields = document.querySelectorAll("input, select, textarea");
 
