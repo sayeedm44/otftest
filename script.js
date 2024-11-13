@@ -89,6 +89,18 @@ document.addEventListener("DOMContentLoaded", function () {
         yPosition += 10;
       }
 
+      // Add Cabin Details heading after "No of Floors"
+      if (labelText.includes("No of Floors")) {
+        yPosition += 10;
+
+        // Center Cabin Details heading
+        const cabinDetailsText = "Cabin Details";
+        doc.setFontSize(14);
+        doc.text(cabinDetailsText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+      }
+
       // Handle page overflow
       if (yPosition > 250) {
         doc.addPage();
