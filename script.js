@@ -55,6 +55,8 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.text(`Referred by: ${referredBy}`, leftIndent, yPosition); // Referred by in Sales Team only
     yPosition += 15;
 
+    // Remove "Referred by" from Customer Details section (no longer needed)
+
     // Center Customer Details heading
     const customerDetailsText = "Customer Details";
     doc.setFontSize(14);
