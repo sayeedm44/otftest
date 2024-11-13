@@ -101,6 +101,61 @@ document.addEventListener("DOMContentLoaded", function () {
         yPosition += 10;
       }
 
+      // Add Additional Features heading after "Cabin Flooring"
+      if (labelText.includes("Cabin Flooring")) {
+        yPosition += 10;
+
+        // Center Additional Features heading
+        const additionalFeaturesText = "Additional Features";
+        doc.setFontSize(14);
+        doc.text(additionalFeaturesText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+      }
+
+      // Add COP/LOP Details heading after "Voice Announcer"
+      if (labelText.includes("Voice Announcer")) {
+        yPosition += 10;
+
+        // Center COP/LOP Details heading
+        const copLopDetailsText = "COP/LOP Details";
+        doc.setFontSize(14);
+        doc.text(copLopDetailsText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+      }
+
+      // Add Terms of Sale and Scope of Work headings after "Authentication Need"
+      if (labelText.includes("Authentication Need")) {
+        yPosition += 10;
+
+        // Center Terms of Sale heading
+        const termsOfSaleText = "Terms of Sale";
+        doc.setFontSize(14);
+        doc.text(termsOfSaleText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+
+        // Center Scope of Work sub-heading
+        const scopeOfWorkText = "Scope of Work";
+        doc.setFontSize(12); // Slightly smaller font for subheading
+        doc.text(scopeOfWorkText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+      }
+
+      // Add Upload Photos heading after "Service"
+      if (labelText.includes("Service")) {
+        yPosition += 10;
+
+        // Center Upload Photos heading
+        const uploadPhotosText = "Upload Photos";
+        doc.setFontSize(14);
+        doc.text(uploadPhotosText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+      }
+
       // Handle page overflow
       if (yPosition > 250) {
         doc.addPage();
