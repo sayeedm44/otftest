@@ -32,7 +32,7 @@ function generatePDF(formValues, images) {
   }
 
   // Add Logo
-  doc.addImage(images.logo, "PNG", logoX, logoY, logoWidth, logoHeight);
+  doc.addImage(formValues.logo, "PNG", logoX, logoY, logoWidth, logoHeight);
 
   // Title
   addText("Brio Elevators OTF Form", 18, true, currentY);
@@ -88,7 +88,7 @@ function generatePDF(formValues, images) {
   function checkPageOverflow(yPosition) {
     if (yPosition > doc.internal.pageSize.height - 20) {
       doc.addPage();
-      doc.addImage(images.logo, "PNG", logoX, logoY, logoWidth, logoHeight);
+      doc.addImage(formValues.logo, "PNG", logoX, logoY, logoWidth, logoHeight);
       return logoY + logoHeight + 10;
     }
     return yPosition;
@@ -97,7 +97,5 @@ function generatePDF(formValues, images) {
   // Additional fields, images, and remarks handling...
   // Remember to update currentY with checkPageOverflow(currentY) for each section to manage page breaks.
 
-  // Dynamically set file name using formValues data
-  const pdfTitle = `${formValues.customerName || 'Customer'}-OTF-${formValues.city || 'City'}-${formValues.area || 'Area'}-${formValues.floors || 'Floors'}-${formValues.model || 'Model'}.pdf`;
-  doc.save(pdfTitle);
+  doc.save("Brio_Elevators_OTF_Form.pdf");
 }
