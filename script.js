@@ -82,6 +82,20 @@ document.addEventListener("DOMContentLoaded", function () {
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, 10, yPosition);
       yPosition += 10;
 
+      // If we reach "Cash & Account Commitments:" label, add "Order Details" heading below
+      if (labelText.includes("Cash & Account Commitments")) {
+        yPosition += 10; // Add a bit of space before "Order Details"
+
+        // Centered Order Details heading
+        const orderDetailsText = "Order Details";
+        doc.setFontSize(14);
+        const orderDetailsXPosition = pageWidth / 2; // Center X position
+        doc.text(orderDetailsText, orderDetailsXPosition, yPosition, { align: "center" });
+
+        // Update yPosition to start adding order details below the heading
+        yPosition += 10;
+      }
+
       // Handle page overflow and reset content position for new pages
       if (yPosition > 250) {  // Reduce the threshold to leave more space for the logo
         doc.addPage(); // Add a new page
