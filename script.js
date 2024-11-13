@@ -1,135 +1,64 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const { jsPDF } = window.jspdf;
+// Define your PDF document with jsPDF
+const pdf = new jsPDF();
+const logoImg = 'path/to/logo.png';  // Use the actual path or base64 encoded image for the logo
 
-  async function downloadPDF() {
-    const doc = new jsPDF();
+// Set positions
+let yPos = 10;
 
-    // Load the logo once and store it as a Base64 image
-    const logo = await loadLogo("logo.png");
+// Add Logo
+pdf.addImage(logoImg, 'PNG', 10, yPos, 30, 30);
+yPos += 40;  // Adjust Y position after logo
 
-    // Retrieve form field values for the custom PDF title
-    const customerName = document.getElementById("customerName").value || "Customer";
-    const city = document.getElementById("city").value || "City";
-    const area = document.getElementById("area").value || "Area";
-    const floors = document.getElementById("floors").value || "Floors";
-    const model = document.getElementById("model").value || "Model";
-    const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
+// Add Title
+pdf.setFontSize(16);
+pdf.text("Brio Elevators OTF Form", pdf.internal.pageSize.getWidth() / 2, yPos, { align: 'center' });
+yPos += 10;
 
-    // Helper function to add the logo to the current page
-    function addLogoToPage() {
-      if (logo) {
-        doc.addImage(logo, "PNG", 10, 10, 30, 30); // Fixed logo position on each page
-      }
+// Add Sales Team Heading
+pdf.setFontSize(14);
+pdf.text("Sales Team", pdf.internal.pageSize.getWidth() / 2, yPos, { align: 'center' });
+yPos += 10;
+
+// Add Sales Team Fields
+pdf.setFontSize(12);
+pdf.text(`Sales Person: ${salesPerson}`, 10, yPos);
+yPos += 10;
+pdf.text(`Team Leader Involved: ${teamLeader}`, 10, yPos);
+yPos += 10;
+pdf.text(`Referred by: ${referredBy}`, 10, yPos);
+yPos += 15;
+
+// Add Customer Details Heading
+pdf.setFontSize(14);
+pdf.text("Customer Details", pdf.internal.pageSize.getWidth() / 2, yPos, { align: 'center' });
+yPos += 10;
+
+// Customer Details Fields
+pdf.setFontSize(12);
+pdf.text(`Customer Name: ${customerName}`, 10, yPos);
+yPos += 10;
+pdf.text(`Area: ${area}`, 10, yPos);
+yPos += 10;
+// Add additional fields similarly
+
+// Function to handle page breaks if yPos exceeds the page height
+function checkPageOverflow() {
+    if (yPos > pdf.internal.pageSize.getHeight() - 20) {
+        pdf.addPage();
+        pdf.addImage(logoImg, 'PNG', 10, 10, 30, 30); // Repeat the logo on each new page
+        yPos = 50;  // Reset yPos after adding new page
     }
+}
 
-    // Add the logo to the first page
-    addLogoToPage();
+// Check for each section and field dynamically
+checkPageOverflow();
 
-    // Center the title text horizontally just below the logo
-    const titleText = "Brio Elevators OTF Form";
-    doc.setFontSize(16);
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const titleXPosition = pageWidth / 2; // Center X position
-    const titleYPosition = 30; // Y position slightly below the logo
+// Similarly, add Order Details, Cabin Details, Additional Features, COP/LOP Details, Terms of Sale, Scope of Work, and Photos
 
-    // Add centered title text below the logo
-    doc.text(titleText, titleXPosition, titleYPosition, { align: "center" });
+// Final section with remarks
+checkPageOverflow();
+pdf.text(`Additional Remarks: ${remarks}`, 10, yPos);
 
-    // Start content below the title
-    let yPosition = titleYPosition + 10; // Adjusted to leave space below the title
-
-    // Centered Sales Team heading below the title
-    const salesTeamText = "Sales Team";
-    doc.setFontSize(14);  // Set a slightly smaller font size for this heading
-    const salesTeamXPosition = pageWidth / 2; // Center X position
-    const salesTeamYPosition = yPosition + 5;  // Reduced space to 5px between title and "Sales Team"
-    doc.text(salesTeamText, salesTeamXPosition, salesTeamYPosition, { align: "center" });
-
-    // Update yPosition to start below the "Sales Team" heading
-    yPosition = salesTeamYPosition + 10;
-
-    // Add Sales Person, Team Leader Involved, Referred by fields
-    const salesPerson = "Sales Person: John Doe";  // Example value, replace with dynamic value if needed
-    const teamLeader = "Team Leader Involved: Jane Smith"; // Example value, replace with dynamic value if needed
-    const referredBy = "Referred by: Referral Name"; // Example value, replace with dynamic value if needed
-    doc.text(salesPerson, 10, yPosition);
-    yPosition += 10;
-    doc.text(teamLeader, 10, yPosition);
-    yPosition += 10;
-    doc.text(referredBy, 10, yPosition);
-    yPosition += 15;  // Add extra space after these fields
-
-    // Centered Customer Details heading below the "Sales Team" section
-    const customerDetailsText = "Customer Details";
-    doc.setFontSize(14);
-    const customerDetailsXPosition = pageWidth / 2; // Center X position
-    doc.text(customerDetailsText, customerDetailsXPosition, yPosition, { align: "center" });
-
-    // Update yPosition to start below the "Customer Details" heading
-    yPosition += 10;
-
-    // Collect and format form data for the PDF
-    const formFields = document.querySelectorAll("input, select, textarea");
-
-    formFields.forEach((field) => {
-      if (field.type === "file") return; // Skip file inputs
-
-      const label = document.querySelector(`label[for="${field.id}"]`);
-      const labelText = label ? label.innerText : field.name || field.id;
-      const fieldValue = field.value || "N/A";
-
-      // Add each field label and value to the PDF
-      doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, 10, yPosition);
-      yPosition += 10;
-
-      // If we reach "Cash & Account Commitments:" label, add "Order Details" heading below
-      if (labelText.includes("Cash & Account Commitments")) {
-        yPosition += 10; // Add a bit of space before "Order Details"
-
-        // Centered Order Details heading
-        const orderDetailsText = "Order Details";
-        doc.setFontSize(14);
-        const orderDetailsXPosition = pageWidth / 2; // Center X position
-        doc.text(orderDetailsText, orderDetailsXPosition, yPosition, { align: "center" });
-
-        // Update yPosition to start adding order details below the heading
-        yPosition += 10;
-      }
-
-      // Handle page overflow and reset content position for new pages
-      if (yPosition > 250) {  // Reduce the threshold to leave more space for the logo
-        doc.addPage(); // Add a new page
-        addLogoToPage(); // Add the logo at the top of the new page
-        yPosition = 50; // Adjust yPosition to start below the logo, leaving 50px space
-      }
-    });
-
-    // Save PDF with custom title
-    doc.save(pdfTitle);
-  }
-
-  // Function to fetch the logo and convert it to a Base64 Data URL
-  async function loadLogo(url) {
-    try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      return await convertBlobToBase64(blob);
-    } catch (error) {
-      console.error("Logo could not be loaded:", error);
-      return null; // Return null if loading fails
-    }
-  }
-
-  // Helper function to convert blob to Base64
-  function convertBlobToBase64(blob) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-  }
-
-  // Attach downloadPDF function to the global window object
-  window.downloadPDF = downloadPDF;
-});
+// Dynamically set file name
+const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
+pdf.save(pdfTitle);
