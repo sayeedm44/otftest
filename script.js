@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const logo = await loadLogo("logo.png");
 
     // Retrieve form values to create a PDF title
-    const customerName = document.getElementById("customerName").value || "Customer";
-    const city = document.getElementById("city").value || "City";
-    const area = document.getElementById("area").value || "Area";
-    const floors = document.getElementById("floors").value || "Floors";
-    const model = document.getElementById("model").value || "Model";
+    const customerName = document.getElementById("customerName")?.value || "Customer";
+    const city = document.getElementById("city")?.value || "City";
+    const area = document.getElementById("area")?.value || "Area";
+    const floors = document.getElementById("floors")?.value || "Floors";
+    const model = document.getElementById("model")?.value || "Model";
     const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
 
     // Helper function to add logo to page
@@ -40,10 +40,10 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.setFontSize(14);
     doc.text(salesTeamText, pageWidth / 2, yPosition, { align: "center" });
 
-    // Retrieve dynamic values for Sales Team section
-    const salesPerson = document.getElementById("salesPerson").value || "N/A";
-    const teamLeader = document.getElementById("teamLeader").value || "N/A";
-    const referredBy = document.getElementById("referredBy").value || "N/A";
+    // Retrieve dynamic values for Sales Team section, safely checking if each field exists
+    const salesPerson = document.getElementById("salesPerson")?.value || "N/A";
+    const teamLeader = document.getElementById("teamLeader")?.value || "N/A";
+    const referredBy = document.getElementById("referredBy")?.value || "N/A";
 
     // Update Y position to start below "Sales Team"
     yPosition += 10;
