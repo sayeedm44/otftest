@@ -1,101 +1,135 @@
-const { jsPDF } = window.jspdf;
+document.addEventListener("DOMContentLoaded", function () {
+  const { jsPDF } = window.jspdf;
 
-function generatePDF(formValues, images) {
-  const doc = new jsPDF();
+  async function downloadPDF() {
+    const doc = new jsPDF();
 
-  // Logo position
-  const logoX = 10;
-  const logoY = 10;
-  const logoWidth = 30;
-  const logoHeight = 30;
+    // Load the logo once and store it as a Base64 image
+    const logo = await loadLogo("logo.png");
 
-  // Centered title and heading Y positions
-  let currentY = logoY + logoHeight + 10;
+    // Retrieve form field values for the custom PDF title
+    const customerName = document.getElementById("customerName").value || "Customer";
+    const city = document.getElementById("city").value || "City";
+    const area = document.getElementById("area").value || "Area";
+    const floors = document.getElementById("floors").value || "Floors";
+    const model = document.getElementById("model").value || "Model";
+    const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
 
-  // Helper function to add text with custom styles
-  function addText(text, fontSize, isBold, yPosition) {
-    doc.setFontSize(fontSize);
-    if (isBold) doc.setFont("helvetica", "bold");
-    else doc.setFont("helvetica", "normal");
-    const textWidth = doc.getTextWidth(text);
-    const x = (doc.internal.pageSize.width - textWidth) / 2;
-    doc.text(text, x, yPosition);
-  }
-
-  // Helper function to add label-value pairs
-  function addLabelValue(label, value, yPosition) {
-    doc.setFont("helvetica", "bold");
-    doc.text(label, 10, yPosition);
-    doc.setFont("helvetica", "normal");
-    doc.text(value, 70, yPosition);
-    return yPosition + 10;
-  }
-
-  // Add Logo
-  doc.addImage(formValues.logo, "PNG", logoX, logoY, logoWidth, logoHeight);
-
-  // Title
-  addText("Brio Elevators OTF Form", 18, true, currentY);
-  currentY += 10;
-
-  // Sales Team Heading
-  addText("Sales Team", 14, true, currentY);
-  currentY += 10;
-
-  // Sales Team details
-  currentY = addLabelValue("Sales Person:", formValues.salesPerson, currentY);
-  currentY = addLabelValue("Team Leader Involved:", formValues.teamLeader, currentY);
-  currentY = addLabelValue("Referred by:", formValues.referredBy, currentY);
-
-  // Customer Details Section
-  addText("Customer Details", 14, true, currentY);
-  currentY += 10;
-  currentY = addLabelValue("Customer Name:", formValues.customerName, currentY);
-  currentY = addLabelValue("Area:", formValues.area, currentY);
-  currentY = addLabelValue("City:", formValues.city, currentY);
-  currentY = addLabelValue("Billing Address:", formValues.billingAddress, currentY);
-  currentY = addLabelValue("Shipping Address:", formValues.shippingAddress, currentY);
-  currentY = addLabelValue("Location:", formValues.location, currentY);
-  currentY = addLabelValue("Contact Number:", formValues.contactNumber, currentY);
-  currentY = addLabelValue("Email ID:", formValues.email, currentY);
-  currentY = addLabelValue("Alternate Contact Name:", formValues.alternateContactName, currentY);
-  currentY = addLabelValue("Alternate Contact Number:", formValues.alternateContactNumber, currentY);
-  currentY = addLabelValue("Final Quotation Number:", formValues.finalQuotation, currentY);
-  currentY = addLabelValue("Order Taken Date:", formValues.orderTakenDate, currentY);
-  currentY = addLabelValue("Promised Delivery in Months:", formValues.deliveryMonths, currentY);
-  currentY = addLabelValue("Cash & Account Commitments:", formValues.cashAccountCommitments, currentY);
-
-  // Order Details Section
-  addText("Order Details", 14, true, currentY);
-  currentY += 10;
-  currentY = addLabelValue("Model:", formValues.model, currentY);
-  currentY = addLabelValue("Structure:", formValues.structure, currentY);
-  currentY = addLabelValue("Structure Color:", formValues.structureColor, currentY);
-  currentY = addLabelValue("Structure Covering:", formValues.structureCovering, currentY);
-  currentY = addLabelValue("Installation Type:", formValues.installationType, currentY);
-  currentY = addLabelValue("Shaft Width (mm):", formValues.shaftWidth, currentY);
-  currentY = addLabelValue("Shaft Depth (mm):", formValues.shaftDepth, currentY);
-  currentY = addLabelValue("Pit (mm):", formValues.pit, currentY);
-  currentY = addLabelValue("Headroom (mm):", formValues.headroom, currentY);
-  currentY = addLabelValue("Travel Height (mm):", formValues.travelHeight, currentY);
-  currentY = addLabelValue("Floor to Floor Distance (mm):", formValues.floorToFloorDistance, currentY);
-  currentY = addLabelValue("Payload (kg):", formValues.payload, currentY);
-  currentY = addLabelValue("No of Floors:", formValues.floors, currentY);
-
-  // Additional sections, continuing similarly...
-
-  // Check for page overflow
-  function checkPageOverflow(yPosition) {
-    if (yPosition > doc.internal.pageSize.height - 20) {
-      doc.addPage();
-      doc.addImage(formValues.logo, "PNG", logoX, logoY, logoWidth, logoHeight);
-      return logoY + logoHeight + 10;
+    // Helper function to add the logo to the current page
+    function addLogoToPage() {
+      if (logo) {
+        doc.addImage(logo, "PNG", 10, 10, 30, 30); // Fixed logo position on each page
+      }
     }
-    return yPosition;
+
+    // Add the logo to the first page
+    addLogoToPage();
+
+    // Center the title text horizontally just below the logo
+    const titleText = "Brio Elevators OTF Form";
+    doc.setFontSize(16);
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const titleXPosition = pageWidth / 2; // Center X position
+    const titleYPosition = 30; // Y position slightly below the logo
+
+    // Add centered title text below the logo
+    doc.text(titleText, titleXPosition, titleYPosition, { align: "center" });
+
+    // Start content below the title
+    let yPosition = titleYPosition + 10; // Adjusted to leave space below the title
+
+    // Centered Sales Team heading below the title
+    const salesTeamText = "Sales Team";
+    doc.setFontSize(14);  // Set a slightly smaller font size for this heading
+    const salesTeamXPosition = pageWidth / 2; // Center X position
+    const salesTeamYPosition = yPosition + 5;  // Reduced space to 5px between title and "Sales Team"
+    doc.text(salesTeamText, salesTeamXPosition, salesTeamYPosition, { align: "center" });
+
+    // Update yPosition to start below the "Sales Team" heading
+    yPosition = salesTeamYPosition + 10;
+
+    // Add Sales Person, Team Leader Involved, Referred by fields
+    const salesPerson = "Sales Person: John Doe";  // Example value, replace with dynamic value if needed
+    const teamLeader = "Team Leader Involved: Jane Smith"; // Example value, replace with dynamic value if needed
+    const referredBy = "Referred by: Referral Name"; // Example value, replace with dynamic value if needed
+    doc.text(salesPerson, 10, yPosition);
+    yPosition += 10;
+    doc.text(teamLeader, 10, yPosition);
+    yPosition += 10;
+    doc.text(referredBy, 10, yPosition);
+    yPosition += 15;  // Add extra space after these fields
+
+    // Centered Customer Details heading below the "Sales Team" section
+    const customerDetailsText = "Customer Details";
+    doc.setFontSize(14);
+    const customerDetailsXPosition = pageWidth / 2; // Center X position
+    doc.text(customerDetailsText, customerDetailsXPosition, yPosition, { align: "center" });
+
+    // Update yPosition to start below the "Customer Details" heading
+    yPosition += 10;
+
+    // Collect and format form data for the PDF
+    const formFields = document.querySelectorAll("input, select, textarea");
+
+    formFields.forEach((field) => {
+      if (field.type === "file") return; // Skip file inputs
+
+      const label = document.querySelector(`label[for="${field.id}"]`);
+      const labelText = label ? label.innerText : field.name || field.id;
+      const fieldValue = field.value || "N/A";
+
+      // Add each field label and value to the PDF
+      doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, 10, yPosition);
+      yPosition += 10;
+
+      // If we reach "Cash & Account Commitments:" label, add "Order Details" heading below
+      if (labelText.includes("Cash & Account Commitments")) {
+        yPosition += 10; // Add a bit of space before "Order Details"
+
+        // Centered Order Details heading
+        const orderDetailsText = "Order Details";
+        doc.setFontSize(14);
+        const orderDetailsXPosition = pageWidth / 2; // Center X position
+        doc.text(orderDetailsText, orderDetailsXPosition, yPosition, { align: "center" });
+
+        // Update yPosition to start adding order details below the heading
+        yPosition += 10;
+      }
+
+      // Handle page overflow and reset content position for new pages
+      if (yPosition > 250) {  // Reduce the threshold to leave more space for the logo
+        doc.addPage(); // Add a new page
+        addLogoToPage(); // Add the logo at the top of the new page
+        yPosition = 50; // Adjust yPosition to start below the logo, leaving 50px space
+      }
+    });
+
+    // Save PDF with custom title
+    doc.save(pdfTitle);
   }
 
-  // Additional fields, images, and remarks handling...
-  // Remember to update currentY with checkPageOverflow(currentY) for each section to manage page breaks.
+  // Function to fetch the logo and convert it to a Base64 Data URL
+  async function loadLogo(url) {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      return await convertBlobToBase64(blob);
+    } catch (error) {
+      console.error("Logo could not be loaded:", error);
+      return null; // Return null if loading fails
+    }
+  }
 
-  doc.save("Brio_Elevators_OTF_Form.pdf");
-}
+  // Helper function to convert blob to Base64
+  function convertBlobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  // Attach downloadPDF function to the global window object
+  window.downloadPDF = downloadPDF;
+});
