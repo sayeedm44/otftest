@@ -40,19 +40,19 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.setFontSize(14);
     doc.text(salesTeamText, pageWidth / 2, yPosition, { align: "center" });
 
+    // Retrieve dynamic values for Sales Team section
+    const salesPerson = document.getElementById("salesPerson").value || "N/A";
+    const teamLeader = document.getElementById("teamLeader").value || "N/A";
+    const referredBy = document.getElementById("referredBy").value || "N/A";
+
     // Update Y position to start below "Sales Team"
     yPosition += 10;
-
-    // Add Sales Person, Team Leader, and Referred by fields
     const leftIndent = 15; // Align text fields with a slight indent from the left
-    const salesPerson = "Sales Person: John Doe";
-    const teamLeader = "Team Leader Involved: Jane Smith";
-    const referredBy = "Referred by: Referral Name";
-    doc.text(salesPerson, leftIndent, yPosition);
+    doc.text(`Sales Person: ${salesPerson}`, leftIndent, yPosition);
     yPosition += 10;
-    doc.text(teamLeader, leftIndent, yPosition);
+    doc.text(`Team Leader Involved: ${teamLeader}`, leftIndent, yPosition);
     yPosition += 10;
-    doc.text(referredBy, leftIndent, yPosition);
+    doc.text(`Referred by: ${referredBy}`, leftIndent, yPosition);
     yPosition += 15;
 
     // Center Customer Details heading
@@ -72,6 +72,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const label = document.querySelector(`label[for="${field.id}"]`);
       const labelText = label ? label.innerText : field.name || field.id;
       const fieldValue = field.value || "N/A";
+
+      // Skip adding Sales Person, Team Leader, and Referred by in Customer Details
+      if (["salesPerson", "teamLeader", "referredBy"].includes(field.id)) {
+        return;
+      }
 
       // Add each field label and value with left alignment
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
