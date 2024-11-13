@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Retrieve dynamic values for Sales Team section, safely checking if each field exists
     const salesPerson = document.getElementById("salesPerson")?.value || "N/A";
     const teamLeader = document.getElementById("teamLeader")?.value || "N/A";
-    const referredBy = document.getElementById("referredBy")?.value || "N/A";
+    const referredBy = document.getElementById("referredBy")?.value || "N/A";  // Now pulled dynamically
 
     // Update Y position to start below "Sales Team"
     yPosition += 10;
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     yPosition += 10;
     doc.text(`Team Leader Involved: ${teamLeader}`, leftIndent, yPosition);
     yPosition += 10;
-    doc.text(`Referred by: ${referredBy}`, leftIndent, yPosition);
+    doc.text(`Referred by: ${referredBy}`, leftIndent, yPosition);  // Referred by moved here
     yPosition += 15;
 
     // Center Customer Details heading
