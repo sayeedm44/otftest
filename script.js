@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     yPosition += 10;
     doc.text(`Team Leader Involved: ${teamLeader}`, leftIndent, yPosition);
     yPosition += 10;
-    doc.text(`Referred by: ${referredBy}`, leftIndent, yPosition);
+    doc.text(`Referred by: ${referredBy}`, leftIndent, yPosition); // Referred by in Sales Team only
     yPosition += 15;
 
     // Center Customer Details heading
