@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.setFontSize(14);
     doc.text(salesTeamText, pageWidth / 2, yPosition, { align: "center" });
 
-    // Retrieve dynamic values for Sales Team section, ensuring each field exists
+    // Retrieve dynamic values for Sales Team section
     const salesPerson = document.getElementById("salesPerson")?.value || "N/A";
     const teamLeader = document.getElementById("teamLeader")?.value || "N/A";
     const referredBy = document.getElementById("referredBy")?.value || "N/A";
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.text(`Team Leader Involved: ${teamLeader}`, leftIndent, yPosition);
     yPosition += 10;
 
-    // Add "Referred by" only if it has a value other than "N/A"
+    // Move "Referred by" to appear below "Team Leader Involved" in Sales Team section
     if (referredBy !== "N/A") {
       doc.text(`Referred by: ${referredBy}`, leftIndent, yPosition);
       yPosition += 15;  // Add space after referredBy if it's displayed
