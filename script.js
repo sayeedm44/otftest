@@ -52,14 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
     yPosition += 10;
     doc.text(`Team Leader Involved: ${teamLeader}`, leftIndent, yPosition);
     yPosition += 10;
-
-    // Move "Referred by" to appear below "Team Leader Involved" in Sales Team section
-    if (referredBy !== "N/A") {
-      doc.text(`Referred by: ${referredBy}`, leftIndent, yPosition);
-      yPosition += 15;  // Add space after referredBy if it's displayed
-    } else {
-      yPosition += 10;  // Maintain spacing if "Referred by" is omitted
-    }
+    doc.text(`Referred by: ${referredBy}`, leftIndent, yPosition);
+    yPosition += 15;
 
     // Center Customer Details heading
     const customerDetailsText = "Customer Details";
@@ -100,8 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
         yPosition += 10;
       }
 
-      // Additional headings and page overflow handling continue here as in previous versions...
-      
       // Handle page overflow
       if (yPosition > 250) {
         doc.addPage();
