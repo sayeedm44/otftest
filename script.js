@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Retrieve dynamic values for Sales Team section
     const salesPerson = document.getElementById("salesPerson")?.value || "N/A";
     const teamLeader = document.getElementById("teamLeader")?.value || "N/A";
-    const referredBy = document.getElementById("referredBy")?.value || ""; // Get "Referred by" here
+    const referredBy = document.getElementById("referredBy")?.value; // Retrieve referredBy
 
     // Update Y position to start below "Sales Team"
     yPosition += 10;
@@ -53,8 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.text(`Team Leader Involved: ${teamLeader}`, leftIndent, yPosition);
     yPosition += 10;
 
-    // Add "Referred by" to Sales Team section only if it is not empty
-    if (referredBy) {
+    // Add "Referred by" only if it has a non-empty value and is not "N/A"
+    if (referredBy && referredBy !== "N/A") {
       doc.text(`Referred by: ${referredBy}`, leftIndent, yPosition);
       yPosition += 10;
     }
