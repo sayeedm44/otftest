@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Retrieve dynamic values for Sales Team section
     const salesPerson = document.getElementById("salesPerson")?.value || "N/A";
     const teamLeader = document.getElementById("teamLeader")?.value || "N/A";
-    const referredBy = document.getElementById("referredBy")?.value; // Retrieve referredBy
+    const referredBy = document.getElementById("referredBy")?.value || "N/A"; // Retrieve referredBy
 
     // Update Y position to start below "Sales Team"
     yPosition += 10;
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.setFontSize(14);
     doc.text(customerDetailsText, pageWidth / 2, yPosition, { align: "center" });
 
-    // Update Y position
+    // Update Y position for Customer Details
     yPosition += 10;
 
     // Form fields formatting for alignment
