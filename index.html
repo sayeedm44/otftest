@@ -272,6 +272,63 @@
 
 
     <h2>Terms of Sale</h2>
+    <h3>Payment Treams</h3>
+    <div>
+      <label for="basiccostoflift">Basic Cost of the Lift:</label><br>
+      <input type="text" id="basiccostoflift" name="basiccostoflift"><br>
+    </div>
+
+    <div>
+      <label for="gstforlift">GST for Lift:</label><br>
+      <input type="text" id="gstforlift" name="gstforlift"><br>
+    </div>
+
+    <div>
+      <label for="installationcharges">Installation Charges:</label><br>
+      <input type="text" id="installationcharges" name="installationcharges"><br>
+    </div>
+
+    <div>
+      <label for="transportationcharges">Transportation Charges:</label><br>
+      <input type="text" id="transportationcharges" name="transportationcharges"><br>
+    </div>
+    
+    <div>
+      <label for="advancepayment">Advance Payment Collected:</label><br>
+      <input type="text" id="advancepayment" name="advancepayment"><br>
+    </div>
+
+    <div>
+      <label for="whileplacingorder">While Placing Order(will provide Drawings):</label><br>
+      <input type="text" id="whileplacingorder" name="whileplacingorder"><br>
+    </div>
+
+    <div>
+      <label for="aftersigningdrawings">After signing the drawings:</label><br>
+      <input type="text" id="aftersigningdrawings" name="aftersigningdrawings"><br>
+    </div>
+
+    <div>
+      <label for="readinessnotificationfromfactory">Readiness Notification from Factory:</label><br>
+      <input type="text" id="readinessnotificationfromfactory" name="readinessnotificationfromfactory"><br>
+    </div>
+
+    <div>
+      <label for="materialreachingsite">Material Reaching Site:</label><br>
+      <input type="text" id="materialreachingsite" name="materialreachingsite"><br>
+    </div>
+
+    <div>
+      <label for="comprehensiveamc">Comprehensive AMC Per Annum:</label><br>
+      <input type="text" id="comprehensiveamc" name="comprehensiveamc"><br>
+    </div>
+
+    <div>
+      <label for="noncomprehensiveamc">Non Comprehensive AMC Per Annum:</label><br>
+      <input type="text" id="noncomprehensiveamc" name="noncomprehensiveamc"><br>
+    </div>
+    
+    
     <h3>Scope of Work</h3>
     <div>
       <label for="Transportation">Transportation:</label><br>
@@ -298,7 +355,7 @@
     </div>
 
     <div>
-      <label for="StorageofMaterial">Storage of Material:</label><br>
+      <label for="StorageofMaterial">Storage of Material at Site:</label><br>
       <select id="StorageofMaterial" name="StorageofMaterial">
         <option value="Brio">Brio</option>
         <option value="customer">Customer</option>
@@ -313,7 +370,14 @@
       </select>
     </div>
 
-
+    <div>
+      <label for="anycivilworks">Any Civil Works:</label><br>
+      <select id="anycivilworks" name="anycivilworks">
+        <option value="Brio">Brio</option>
+        <option value="customer">Customer</option>
+      </select>
+    </div>
+    
     <div>
       <label for="GlassforShaft ">Glass / ACP for Shaft:</label><br>
       <select id="GlassforShaft" name="GlassforShaft">
@@ -330,6 +394,17 @@
     <div>
       <label for="service">Service:</label><br>
       <input type="text" id="service" name="service"><br>
+    </div>
+    
+    <h3>Documents Collected</h3>
+    <div>
+      <label for="quotation">Original Signed Quotation:</label><br>
+      <input type="text" id="quotation" name="quotation"><br>
+    </div>
+
+    <div>
+      <label for="pan">PAN Card Copy Of Customer:</label><br>
+      <input type="text" id="pan" name="pan"><br>
     </div>
     
     <h2>Upload Photos</h2>
@@ -358,6 +433,10 @@
       <label for="remarks">Additional Remarks:</label>
       <textarea id="remarks" name="remarks"></textarea>
 
+      <div>
+      <label for="approved">OTF & Quotation Approved by:</label><br>
+      <input type="text" id="approved" name="approved"><br>
+      </div>
 
      <button type="button" onclick="downloadPDF()">Download as PDF</button>
   </div>
