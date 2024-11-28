@@ -30,23 +30,7 @@ h2 {
     margin: 30px 0 15px; /* Space above and below sub-titles */
 }
 
-/* General styles for input containers */
-.input-container {
-    position: relative; /* Positioning for label overlap */
-    margin-bottom: 20px; /* Space between input fields */
-    border: 1px solid #ced4da; /* Outer border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px; /* Padding for the container */
-    background-color: transparent; /* Transparent background */
-}
-
-/* Styles for labels */
 label {
-    position: absolute; /* Absolute positioning for overlap */
-    top: -10px; /* Adjust to intersect with the border */
-    left: 10px; /* Space from the left */
-    background-color: white; /* Background for label */
-    padding: 0 5px; /* Padding for label */
     font-weight: bold; /* Bold labels */
     color: #495057; /* Subtle text color */
 }
@@ -55,10 +39,10 @@ input, select, button, textarea {
     width: 100%; /* Full width for inputs */
     margin-bottom: 15px; /* Space below inputs */
     padding: 10px; /* Padding for inputs */
-    border: none; /* Remove inner border */
-    outline: none; /* Remove outline */
-    font-size: 1em; /* Font size */
-    background-color: transparent; /* Transparent background */
+    border: 1px solid #ced4da; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+    font-size: 1em;
 }
 
 textarea {
