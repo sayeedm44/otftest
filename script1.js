@@ -66,6 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Form fields formatting for alignment
     const formFields = document.querySelectorAll("input, select, textarea");
 
+    let isOrderDetailsStarted = false;
+
     formFields.forEach((field) => {
       if (field.type === "file") return; // Skip file inputs
 
@@ -83,15 +85,19 @@ document.addEventListener("DOMContentLoaded", function () {
       yPosition += 10;
 
       // Insert Order Details heading when reaching specific field
-      if (labelText.includes("Cash & Account Commitments")) {
-        yPosition += 10;
+      if (labelText.includes("Cash & Account Commitments") && !isOrderDetailsStarted) {
+        // Move to the next page for "Order Details"
+        doc.addPage();
+        addLogoToPage();
+        yPosition = 45;  // Reset Y position on the new page
 
         // Center Order Details heading
         const orderDetailsText = "Order Details";
         doc.setFontSize(14);
         doc.text(orderDetailsText, pageWidth / 2, yPosition, { align: "center" });
-
         yPosition += 10;
+
+        isOrderDetailsStarted = true;
       }
 
       // Handle page overflow
