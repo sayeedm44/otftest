@@ -76,20 +76,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const labelText = label ? label.innerText : field.name || field.id;
       const fieldValue = field.value;
 
+      // Skip adding Sales Person, Team Leader, and Referred by in Customer Details
+      if (["salesPerson", "teamLeader", "Refferedby"].includes(field.id)) {
+        return;
+      }
+
       // Add each field label and value with left alignment
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
       yPosition += 10;
-
-      // Add "Cabin Design" after "Glass Wall in Cabin"
-      if (labelText.includes("Glass Wall in Cabin")) {
-        const cabinDesignElement = document.getElementById("cabinDesign");
-        const cabinDesignValue = cabinDesignElement?.value?.trim();
-
-        if (cabinDesignValue) {
-          doc.text(`Cabin Design: ${cabinDesignValue}`, leftIndent, yPosition);
-          yPosition += 10;
-        }
-      }
 
       // Insert Cabin Details heading after "No of Floors:"
       if (labelText.includes("No of Floors") && !isCabinDetailsStarted) {
