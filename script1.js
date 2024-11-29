@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const logo = await loadLogo("logo.png");
 
     // Retrieve form values to create a PDF title
-    const customerName = document.getElementById("customerName")?.value;
-    const city = document.getElementById("city")?.value;
-    const area = document.getElementById("area")?.value;
-    const floors = document.getElementById("floors")?.value;
-    const model = document.getElementById("model")?.value;
+    const customerName = document.getElementById("customerName")?.value || '';
+    const city = document.getElementById("city")?.value || '';
+    const area = document.getElementById("area")?.value || '';
+    const floors = document.getElementById("floors")?.value || '';
+    const model = document.getElementById("model")?.value || '';
     const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
 
     // Helper function to add logo to page
@@ -41,9 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.text(salesTeamText, pageWidth / 2, yPosition, { align: "center" });
 
     // Retrieve dynamic values for Sales Team section
-    const salesPerson = document.getElementById("salesPerson")?.value;
-    const teamLeader = document.getElementById("teamLeader")?.value;
-    const referredBy = document.getElementById("Refferedby")?.value;
+    const salesPerson = document.getElementById("salesPerson")?.value || '';
+    const teamLeader = document.getElementById("teamLeader")?.value || '';
+    const referredBy = document.getElementById("Refferedby")?.value || '';
 
     // Update Y position to start below "Sales Team"
     yPosition += 10;
