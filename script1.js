@@ -67,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const formFields = document.querySelectorAll("input, select, textarea");
 
     let isOrderDetailsStarted = false;
+    let isCabinDetailsStarted = false;
 
     formFields.forEach((field) => {
       if (field.type === "file") return; // Skip file inputs
@@ -84,7 +85,23 @@ document.addEventListener("DOMContentLoaded", function () {
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
       yPosition += 10;
 
-      // Insert Order Details heading when reaching specific field
+      // Insert Cabin Details heading after "No of Floors:"
+      if (labelText.includes("No of Floors") && !isCabinDetailsStarted) {
+        // Move to the next page for "Cabin Details"
+        doc.addPage();
+        addLogoToPage();
+        yPosition = 45;  // Reset Y position on the new page
+
+        // Center Cabin Details heading
+        const cabinDetailsText = "Cabin Details";
+        doc.setFontSize(14);
+        doc.text(cabinDetailsText, pageWidth / 2, yPosition, { align: "center" });
+        yPosition += 10;
+
+        isCabinDetailsStarted = true;
+      }
+
+      // Insert Order Details heading after "Cash & Account Commitments" (same logic as before)
       if (labelText.includes("Cash & Account Commitments") && !isOrderDetailsStarted) {
         // Move to the next page for "Order Details"
         doc.addPage();
