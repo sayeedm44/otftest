@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function downloadPDF() {
     const doc = new jsPDF();
-
+    
     // Load the logo as a Base64 image
     const logo = await loadLogo("logo.png");
 
@@ -32,43 +32,32 @@ document.addEventListener("DOMContentLoaded", function () {
     const titleYPosition = 45;
     doc.text(titleText, pageWidth / 2, titleYPosition, { align: "center" });
 
-    // Adjust starting Y position below title
-    let yPosition = titleYPosition + 10;
-
-    // Center Sales Team heading below title
+    // Start a table for Sales Team
     const salesTeamText = "Sales Team";
-    doc.setFontSize(14);
-    doc.text(salesTeamText, pageWidth / 2, yPosition, { align: "center" });
-
-    // Retrieve dynamic values for Sales Team section
     const salesPerson = document.getElementById("salesPerson")?.value;
     const teamLeader = document.getElementById("teamLeader")?.value;
     const referredBy = document.getElementById("Refferedby")?.value;
 
-    // Update Y position to start below "Sales Team"
-    yPosition += 10;
-    const leftIndent = 15; // Align text fields with a slight indent from the left
-    doc.text(`Sales Person: ${salesPerson}`, leftIndent, yPosition);
-    yPosition += 10;
-    doc.text(`Team Leader Involved: ${teamLeader}`, leftIndent, yPosition);
-    yPosition += 10;
-    doc.text(`Referred by: ${referredBy}`, leftIndent, yPosition);
-    yPosition += 10;
+    const salesTeamData = [
+      ["Sales Person", salesPerson],
+      ["Team Leader Involved", teamLeader],
+      ["Referred by", referredBy]
+    ];
 
-    // Center Customer Details heading
+    const salesTeamOptions = {
+      startY: titleYPosition + 10,
+      head: [["", ""]],
+      body: salesTeamData
+    };
+
+    doc.autoTable(salesTeamOptions);
+
+    // Start a table for Customer Details
     const customerDetailsText = "Customer Details";
-    doc.setFontSize(14);
-    doc.text(customerDetailsText, pageWidth / 2, yPosition, { align: "center" });
-
-    // Update Y position for Customer Details
-    yPosition += 10;
-
-    // Form fields formatting for alignment
     const formFields = document.querySelectorAll("input, select, textarea");
 
-    let isOrderDetailsStarted = false;
-    let isCabinDetailsStarted = false;
-
+    const customerDetailsData = [];
+    
     formFields.forEach((field) => {
       if (field.type === "file") return; // Skip file inputs
 
@@ -81,49 +70,42 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // Add each field label and value with left alignment
-      doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
-      yPosition += 10;
-
-      // Insert Cabin Details heading after "No of Floors:"
-      if (labelText.includes("No of Floors") && !isCabinDetailsStarted) {
-        // Move to the next page for "Cabin Details"
-        doc.addPage();
-        addLogoToPage();
-        yPosition = 45;  // Reset Y position on the new page
-
-        // Center Cabin Details heading
-        const cabinDetailsText = "Cabin Details";
-        doc.setFontSize(14);
-        doc.text(cabinDetailsText, pageWidth / 2, yPosition, { align: "center" });
-        yPosition += 10;
-
-        isCabinDetailsStarted = true;
-      }
-
-      // Insert Order Details heading after "Cash & Account Commitments" (same logic as before)
-      if (labelText.includes("Cash & Account Commitments") && !isOrderDetailsStarted) {
-        // Move to the next page for "Order Details"
-        doc.addPage();
-        addLogoToPage();
-        yPosition = 45;  // Reset Y position on the new page
-
-        // Center Order Details heading
-        const orderDetailsText = "Order Details";
-        doc.setFontSize(14);
-        doc.text(orderDetailsText, pageWidth / 2, yPosition, { align: "center" });
-        yPosition += 10;
-
-        isOrderDetailsStarted = true;
-      }
-
-      // Handle page overflow
-      if (yPosition > 250) {
-        doc.addPage();
-        addLogoToPage();
-        yPosition = 50;
-      }
+      customerDetailsData.push([labelText.replace(/:+$/, ''), fieldValue]);
     });
+
+    const customerDetailsOptions = {
+      startY: doc.lastAutoTable.finalY + 10,
+      head: [["Field", "Value"]],
+      body: customerDetailsData
+    };
+
+    doc.autoTable(customerDetailsOptions);
+
+    // Start a table for Cabin Details
+    const cabinDesignElement = document.getElementById("cabinDesign");
+    const cabinDesignValue = cabinDesignElement?.value?.trim();
+
+    const cabinDetailsData = [
+      ["Glass Wall in Cabin", document.getElementById("glassWallCabin").value],
+    ];
+
+    if (cabinDesignValue) {
+      cabinDetailsData.push(["Cabin Design", cabinDesignValue]);
+    }
+
+    const cabinDetailsOptions = {
+      startY: doc.lastAutoTable.finalY + 10,
+      head: [["Field", "Value"]],
+      body: cabinDetailsData
+    };
+
+    doc.autoTable(cabinDetailsOptions);
+
+    // Handle page overflow
+    if (doc.lastAutoTable.finalY > 250) {
+      doc.addPage();
+      addLogoToPage();
+    }
 
     // Save the PDF with a custom title
     doc.save(pdfTitle);
