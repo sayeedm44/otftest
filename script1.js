@@ -102,12 +102,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Add "Cabin Design:" after "Glass Wall in Cabin:"
-      if (labelText.includes("Glass Wall in Cabin:")) {
+      if (labelText.includes("Glass Wall in Cabin")) {
         const cabinDesignElement = document.getElementById("cabinDesign");
         if (cabinDesignElement) {
           const cabinDesignLabel = document.querySelector('label[for="cabinDesign"]');
           const cabinDesignText = cabinDesignLabel ? cabinDesignLabel.innerText : "Cabin Design";
-          const cabinDesignValue = cabinDesignElement.value;
+          const cabinDesignValue = cabinDesignElement.value || 'N/A';
           doc.text(`${cabinDesignText}: ${cabinDesignValue}`, leftIndent, yPosition);
           yPosition += 10;
         }
