@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const logo = await loadLogo("logo.png");
 
     // Retrieve form values to create a PDF title
-    const customerName = document.getElementById("customerName")?.value || '';
-    const city = document.getElementById("city")?.value || '';
-    const area = document.getElementById("area")?.value || '';
-    const floors = document.getElementById("floors")?.value || '';
-    const model = document.getElementById("model")?.value || '';
+    const customerName = document.getElementById("customerName")?.value;
+    const city = document.getElementById("city")?.value;
+    const area = document.getElementById("area")?.value;
+    const floors = document.getElementById("floors")?.value;
+    const model = document.getElementById("model")?.value;
     const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
 
     // Helper function to add logo to page
@@ -41,9 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.text(salesTeamText, pageWidth / 2, yPosition, { align: "center" });
 
     // Retrieve dynamic values for Sales Team section
-    const salesPerson = document.getElementById("salesPerson")?.value || '';
-    const teamLeader = document.getElementById("teamLeader")?.value || '';
-    const referredBy = document.getElementById("Refferedby")?.value || '';
+    const salesPerson = document.getElementById("salesPerson")?.value;
+    const teamLeader = document.getElementById("teamLeader")?.value;
+    const referredBy = document.getElementById("Refferedby")?.value;
 
     // Update Y position to start below "Sales Team"
     yPosition += 10;
@@ -85,8 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
       yPosition += 10;
 
-      // Insert Cabin Details heading after "Glass Wall in Cabin"
-      if (labelText.includes("Glass Wall in Cabin") && !isCabinDetailsStarted) {
+      // Insert Cabin Details heading after "No of Floors:"
+      if (labelText.includes("No of Floors") && !isCabinDetailsStarted) {
         // Move to the next page for "Cabin Details"
         doc.addPage();
         addLogoToPage();
@@ -99,16 +99,6 @@ document.addEventListener("DOMContentLoaded", function () {
         yPosition += 10;
 
         isCabinDetailsStarted = true;
-      }
-
-      // Add the Cabin Design field only if the element exists
-      const cabinDesignElement = document.getElementById("cabinDesign");
-      if (cabinDesignElement) {
-        const cabinDesignLabel = document.querySelector('label[for="cabinDesign"]');
-        const cabinDesignText = cabinDesignLabel ? cabinDesignLabel.innerText : "Cabin Design";
-        const cabinDesignValue = cabinDesignElement.value;
-        doc.text(`${cabinDesignText}: ${cabinDesignValue}`, leftIndent, yPosition);
-        yPosition += 10;
       }
 
       // Insert Order Details heading after "Cash & Account Commitments" (same logic as before)
