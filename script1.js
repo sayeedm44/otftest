@@ -3,133 +3,99 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function downloadPDF() {
     const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
 
-    // Load the logo as a Base64 image
+    // Load logo as Base64
     const logo = await loadLogo("logo.png");
 
-    // Retrieve form values to create a PDF title
-    const customerName = document.getElementById("customerName")?.value;
-    const city = document.getElementById("city")?.value;
-    const area = document.getElementById("area")?.value;
-    const floors = document.getElementById("floors")?.value;
-    const model = document.getElementById("model")?.value;
+    // Retrieve form values for PDF title
+    const customerName = document.getElementById("customerName")?.value || "Customer";
+    const city = document.getElementById("city")?.value || "City";
+    const area = document.getElementById("area")?.value || "Area";
+    const floors = document.getElementById("floors")?.value || "Floors";
+    const model = document.getElementById("model")?.value || "Model";
     const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
 
-    // Helper function to add logo to page
-    function addLogoToPage() {
+    // Helper function to add logo
+    function addLogoToPage(yOffset = 10) {
       if (logo) {
-        doc.addImage(logo, "PNG", 10, 10, 30, 30); // Fixed position for logo
+        doc.addImage(logo, "PNG", 10, yOffset, 30, 30);
       }
     }
 
-    // Add logo to the first page
+    // Centered text
+    function addCenteredText(text, fontSize, yPosition) {
+      doc.setFontSize(fontSize);
+      doc.text(text, pageWidth / 2, yPosition, { align: "center" });
+    }
+
+    // Add logo and title to first page
     addLogoToPage();
+    addCenteredText("Brio Elevators OTF Form", 16, 45);
+    let yPosition = 55;
 
-    // Center title text below the logo
-    const titleText = "Brio Elevators OTF Form";
-    doc.setFontSize(16);
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const titleYPosition = 45;
-    doc.text(titleText, pageWidth / 2, titleYPosition, { align: "center" });
-
-    // Adjust starting Y position below title
-    let yPosition = titleYPosition + 10;
-
-    // Center Sales Team heading below title
-    const salesTeamText = "Sales Team";
-    doc.setFontSize(14);
-    doc.text(salesTeamText, pageWidth / 2, yPosition, { align: "center" });
-
-    // Retrieve dynamic values for Sales Team section
-    const salesPerson = document.getElementById("salesPerson")?.value;
-    const teamLeader = document.getElementById("teamLeader")?.value;
-    const referredBy = document.getElementById("Refferedby")?.value;
-
-    // Update Y position to start below "Sales Team"
-    yPosition += 10;
-    const leftIndent = 15; // Align text fields with a slight indent from the left
-    doc.text(`Sales Person: ${salesPerson}`, leftIndent, yPosition);
-    yPosition += 10;
-    doc.text(`Team Leader Involved: ${teamLeader}`, leftIndent, yPosition);
-    yPosition += 10;
-    doc.text(`Referred by: ${referredBy}`, leftIndent, yPosition);
+    // Add Sales Team section
+    addCenteredText("Sales Team", 14, yPosition);
     yPosition += 10;
 
-    // Center Customer Details heading
-    const customerDetailsText = "Customer Details";
-    doc.setFontSize(14);
-    doc.text(customerDetailsText, pageWidth / 2, yPosition, { align: "center" });
+    // Fetch and render Sales Team values
+    const salesFields = [
+      { id: "salesPerson", label: "Sales Person" },
+      { id: "teamLeader", label: "Team Leader Involved" },
+      { id: "Refferedby", label: "Referred By" },
+    ];
+    yPosition = addFields(doc, salesFields, yPosition, 15, pageHeight);
 
-    // Update Y position for Customer Details
-    yPosition += 10;
+    // Add Customer Details section
+    yPosition = addSection(
+      doc,
+      "Customer Details",
+      ["customerName", "area", "city", "billingAddress", "shippingAddress", "location"],
+      yPosition,
+      pageHeight
+    );
 
-    // Form fields formatting for alignment
-    const formFields = document.querySelectorAll("input, select, textarea");
+    // Add Order Details section
+    yPosition = addSection(
+      doc,
+      "Order Details",
+      ["model", "Structure", "structureColor", "shaftWidth", "shaftDepth"],
+      yPosition,
+      pageHeight
+    );
 
-    let isOrderDetailsStarted = false;
-    let isCabinDetailsStarted = false;
-
-    formFields.forEach((field) => {
-      if (field.type === "file") return; // Skip file inputs
-
-      const label = document.querySelector(`label[for="${field.id}"]`);
-      const labelText = label ? label.innerText : field.name || field.id;
-      const fieldValue = field.value;
-
-      // Skip adding Sales Person, Team Leader, and Referred by in Customer Details
-      if (["salesPerson", "teamLeader", "Refferedby"].includes(field.id)) {
-        return;
-      }
-
-      // Add each field label and value with left alignment
-      doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
-      yPosition += 10;
-
-      // Insert Cabin Details heading after "No of Floors:"
-      if (labelText.includes("No of Floors") && !isCabinDetailsStarted) {
-        // Move to the next page for "Cabin Details"
-        doc.addPage();
-        addLogoToPage();
-        yPosition = 45;  // Reset Y position on the new page
-
-        // Center Cabin Details heading
-        const cabinDetailsText = "Cabin Details";
-        doc.setFontSize(14);
-        doc.text(cabinDetailsText, pageWidth / 2, yPosition, { align: "center" });
-        yPosition += 10;
-
-        isCabinDetailsStarted = true;
-      }
-
-      // Insert Order Details heading after "Cash & Account Commitments" (same logic as before)
-      if (labelText.includes("Cash & Account Commitments") && !isOrderDetailsStarted) {
-        // Move to the next page for "Order Details"
-        doc.addPage();
-        addLogoToPage();
-        yPosition = 45;  // Reset Y position on the new page
-
-        // Center Order Details heading
-        const orderDetailsText = "Order Details";
-        doc.setFontSize(14);
-        doc.text(orderDetailsText, pageWidth / 2, yPosition, { align: "center" });
-        yPosition += 10;
-
-        isOrderDetailsStarted = true;
-      }
-
-      // Handle page overflow
-      if (yPosition > 250) {
-        doc.addPage();
-        addLogoToPage();
-        yPosition = 50;
-      }
-    });
-
-    // Save the PDF with a custom title
+    // Save the PDF
     doc.save(pdfTitle);
   }
 
-  // Function to load logo as Base64
+  // Add fields to PDF
+  function addFields(doc, fields, startY, leftIndent, pageHeight) {
+    let yPosition = startY;
+    fields.forEach(({ id, label }) => {
+      const value = document.getElementById(id)?.value || "N/A";
+      doc.text(`${label}: ${value}`, leftIndent, yPosition);
+      yPosition += 10;
+      if (yPosition > pageHeight - 20) {
+        doc.addPage();
+        yPosition = 20;
+      }
+    });
+    return yPosition;
+  }
+
+  // Add section with a heading
+  function addSection(doc, heading, fieldIds, yPosition, pageHeight) {
+    addCenteredText(heading, 14, yPosition);
+    yPosition += 10;
+    const fields = fieldIds.map((id) => ({
+      id,
+      label: document.querySelector(`label[for="${id}"]`)?.innerText || id,
+    }));
+    return addFields(doc, fields, yPosition, 15, pageHeight);
+  }
+
+  // Load logo as Base64
   async function loadLogo(url) {
     try {
       const response = await fetch(url);
