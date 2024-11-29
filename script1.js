@@ -85,8 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
       yPosition += 10;
 
-      // Insert Cabin Details heading after "No of Floors:"
-      if (labelText.includes("No of Floors") && !isCabinDetailsStarted) {
+      // Insert Cabin Details heading after "Glass Wall in Cabin"
+      if (labelText.includes("Glass Wall in Cabin") && !isCabinDetailsStarted) {
         // Move to the next page for "Cabin Details"
         doc.addPage();
         addLogoToPage();
@@ -99,6 +99,15 @@ document.addEventListener("DOMContentLoaded", function () {
         yPosition += 10;
 
         isCabinDetailsStarted = true;
+      }
+
+      // Add the Cabin Design field
+      const cabinDesignLabel = document.querySelector('label[for="cabinDesign"]');
+      if (cabinDesignLabel) {
+        const cabinDesignText = cabinDesignLabel.innerText;
+        const cabinDesignValue = document.getElementById("cabinDesign").value;
+        doc.text(`${cabinDesignText}: ${cabinDesignValue}`, leftIndent, yPosition);
+        yPosition += 10;
       }
 
       // Insert Order Details heading after "Cash & Account Commitments" (same logic as before)
