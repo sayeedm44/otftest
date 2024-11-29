@@ -104,11 +104,10 @@ document.addEventListener("DOMContentLoaded", function () {
       // Add "Cabin Design" after "Glass Wall in Cabin"
       if (labelText.includes("Glass Wall in Cabin")) {
         const cabinDesignElement = document.getElementById("cabinDesign");
-        const cabinDesignLabel = document.querySelector('label[for="cabinDesign"]');
-        const cabinDesignText = cabinDesignLabel ? cabinDesignLabel.innerText : "Cabin Design";
+        const cabinDesignLabel = "Cabin Design";
         const cabinDesignValue = cabinDesignElement?.value || "N/A";
 
-        doc.text(`${cabinDesignText}: ${cabinDesignValue}`, leftIndent, yPosition);
+        doc.text(`${cabinDesignLabel}: ${cabinDesignValue}`, leftIndent, yPosition);
         yPosition += 10;
       }
 
