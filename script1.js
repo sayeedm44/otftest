@@ -101,11 +101,12 @@ document.addEventListener("DOMContentLoaded", function () {
         isCabinDetailsStarted = true;
       }
 
-      // Add the Cabin Design field
-      const cabinDesignLabel = document.querySelector('label[for="cabinDesign"]');
-      if (cabinDesignLabel) {
-        const cabinDesignText = cabinDesignLabel.innerText;
-        const cabinDesignValue = document.getElementById("cabinDesign").value;
+      // Add the Cabin Design field only if the element exists
+      const cabinDesignElement = document.getElementById("cabinDesign");
+      if (cabinDesignElement) {
+        const cabinDesignLabel = document.querySelector('label[for="cabinDesign"]');
+        const cabinDesignText = cabinDesignLabel ? cabinDesignLabel.innerText : "Cabin Design";
+        const cabinDesignValue = cabinDesignElement.value;
         doc.text(`${cabinDesignText}: ${cabinDesignValue}`, leftIndent, yPosition);
         yPosition += 10;
       }
