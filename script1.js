@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const logo = await loadLogo("logo.png");
 
     // Retrieve form values to create a PDF title
-    const customerName = document.getElementById("customerName")?.value || "";
-    const city = document.getElementById("city")?.value || "";
-    const area = document.getElementById("area")?.value || "";
-    const floors = document.getElementById("floors")?.value || "";
-    const model = document.getElementById("model")?.value || "";
+    const customerName = document.getElementById("customerName")?.value;
+    const city = document.getElementById("city")?.value;
+    const area = document.getElementById("area")?.value;
+    const floors = document.getElementById("floors")?.value;
+    const model = document.getElementById("model")?.value;
     const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
 
     // Helper function to add logo to page
@@ -41,9 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.text(salesTeamText, pageWidth / 2, yPosition, { align: "center" });
 
     // Retrieve dynamic values for Sales Team section
-    const salesPerson = document.getElementById("salesPerson")?.value || "";
-    const teamLeader = document.getElementById("teamLeader")?.value || "";
-    const referredBy = document.getElementById("Refferedby")?.value || "";
+    const salesPerson = document.getElementById("salesPerson")?.value;
+    const teamLeader = document.getElementById("teamLeader")?.value;
+    const referredBy = document.getElementById("Refferedby")?.value;
 
     // Update Y position to start below "Sales Team"
     yPosition += 10;
@@ -76,21 +76,27 @@ document.addEventListener("DOMContentLoaded", function () {
       const labelText = label ? label.innerText : field.name || field.id;
       const fieldValue = field.value;
 
-      // Skip adding Sales Person, Team Leader, and Referred by in Customer Details
-      if (["salesPerson", "teamLeader", "Refferedby"].includes(field.id)) {
-        return;
-      }
-
       // Add each field label and value with left alignment
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
       yPosition += 10;
+
+      // Add "Cabin Design" after "Glass Wall in Cabin"
+      if (labelText.includes("Glass Wall in Cabin")) {
+        const cabinDesignElement = document.getElementById("cabinDesign");
+        const cabinDesignValue = cabinDesignElement?.value?.trim();
+
+        if (cabinDesignValue) {
+          doc.text(`Cabin Design: ${cabinDesignValue}`, leftIndent, yPosition);
+          yPosition += 10;
+        }
+      }
 
       // Insert Cabin Details heading after "No of Floors:"
       if (labelText.includes("No of Floors") && !isCabinDetailsStarted) {
         // Move to the next page for "Cabin Details"
         doc.addPage();
         addLogoToPage();
-        yPosition = 45; // Reset Y position on the new page
+        yPosition = 45;  // Reset Y position on the new page
 
         // Center Cabin Details heading
         const cabinDetailsText = "Cabin Details";
@@ -101,22 +107,12 @@ document.addEventListener("DOMContentLoaded", function () {
         isCabinDetailsStarted = true;
       }
 
-      // Add "Cabin Design" after "Glass Wall in Cabin"
-      if (labelText.includes("Glass Wall in Cabin")) {
-        const cabinDesignElement = document.getElementById("cabinDesign");
-        const cabinDesignLabel = "Cabin Design";
-        const cabinDesignValue = cabinDesignElement?.value || "N/A";
-
-        doc.text(`${cabinDesignLabel}: ${cabinDesignValue}`, leftIndent, yPosition);
-        yPosition += 10;
-      }
-
-      // Insert Order Details heading after "Cash & Account Commitments"
+      // Insert Order Details heading after "Cash & Account Commitments" (same logic as before)
       if (labelText.includes("Cash & Account Commitments") && !isOrderDetailsStarted) {
         // Move to the next page for "Order Details"
         doc.addPage();
         addLogoToPage();
-        yPosition = 45; // Reset Y position on the new page
+        yPosition = 45;  // Reset Y position on the new page
 
         // Center Order Details heading
         const orderDetailsText = "Order Details";
