@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Add Cabin Details Section
-    await addCabinDetailsSection();
+    await addCabinDetailsSection(doc);
 
     // Save the PDF with a custom title
     doc.save(pdfTitle);
@@ -130,21 +130,22 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Add Cabin Details Section
-  async function addCabinDetailsSection() {
+  async function addCabinDetailsSection(doc) {
     doc.addPage();
-    addLogoToPage();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const leftIndent = 15;
     let yPosition = 45; // Reset Y position for the new page
 
     // Add Cabin Details heading
     const cabinDetailsText = "Cabin Details";
     doc.setFontSize(14);
-    doc.text(cabinDetailsText, doc.internal.pageSize.getWidth() / 2, yPosition, { align: "center" });
+    doc.text(cabinDetailsText, pageWidth / 2, yPosition, { align: "center" });
     yPosition += 10;
 
     // Load and add the cabin image
     const cabinImageBase64 = await getImageBase64(".cabin-image img");
     if (cabinImageBase64) {
-      doc.addImage(cabinImageBase64, "PNG", 15, yPosition, 180, 100); // Adjust dimensions and position as needed
+      doc.addImage(cabinImageBase64, "PNG", leftIndent, yPosition, 180, 100); // Adjust dimensions and position as needed
       yPosition += 110; // Adjust the Y position based on the image height
     } else {
       console.warn("Cabin image could not be loaded.");
