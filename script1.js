@@ -15,15 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const model = document.getElementById("model")?.value || '';
     const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
 
-    // Helper function to add logo to page
-    function addLogoToPage() {
-      if (logo) {
-        doc.addImage(logo, "PNG", 10, 10, 30, 30); // Fixed position for logo
-      }
-    }
-
     // Add logo to the first page
-    addLogoToPage();
+    addLogoToPage(doc, logo);
 
     // Center title text below the logo
     const titleText = "Brio Elevators OTF Form";
@@ -49,6 +42,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Save the PDF with a custom title
     doc.save(pdfTitle);
+  }
+
+  function addLogoToPage(doc, logo) {
+    if (logo) {
+      doc.addImage(logo, "PNG", 10, 10, 30, 30); // Fixed position for logo
+    }
   }
 
   function addSalesTeamSection(doc, pageWidth, yPosition) {
@@ -100,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (yPosition > 250) {
         doc.addPage();
-        addLogoToPage();
+        addLogoToPage(doc, logo); // Ensure the logo is added when a new page starts
         yPosition = 50;
       }
     });
