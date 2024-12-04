@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const model = document.getElementById("model")?.value || '';
     const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
 
-    // Helper function to add logo to page
+    // Helper function to add logo to the page
     function addLogoToPage() {
       if (logo) {
         doc.addImage(logo, "PNG", 10, 10, 30, 30); // Fixed position for logo
@@ -113,6 +113,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add Cabin Details Section
     await addCabinDetailsSection(doc);
 
+    // Add Uploaded Photos Section
+    await addUploadedPhotosSection(doc);
+
     // Save the PDF with a custom title
     doc.save(pdfTitle);
   }
@@ -152,31 +155,54 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Function to load images from the DOM
-  async function getImageBase64(imgSelector) {
-    const imgElement = document.querySelector(imgSelector);
-    if (!imgElement || !imgElement.src) {
-      console.warn("Image not found or has no source:", imgSelector);
-      return null;
-    }
+  // Add Uploaded Photos Section
+  async function addUploadedPhotosSection(doc) {
+    const photoSections = [
+      { label: "Building/Site", id: "buildingPhotos" },
+      { label: "PIT", id: "pitPhotos" },
+      { label: "Headroom", id: "headroomPhotos" },
+      { label: "Selected COP/LOP", id: "SelectedCOPLOP" },
+      { label: "Selected Cabin", id: "SelectedCabin" },
+      { label: "Selected Ceiling", id: "SelectedCelling" },
+      { label: "Remaining Images", id: "remainingPhotos" },
+    ];
 
-    try {
-      const response = await fetch(imgElement.src);
-      const blob = await response.blob();
-      return await convertBlobToBase64(blob);
-    } catch (error) {
-      console.error("Error loading image:", error);
-      return null;
+    let yPosition = 45; // Start below the previous section or on a new page
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const leftIndent = 15;
+
+    for (const section of photoSections) {
+      const input = document.getElementById(section.id);
+      if (!input || !input.files.length) continue;
+
+      // Add section heading
+      doc.setFontSize(14);
+      doc.text(section.label, pageWidth / 2, yPosition, { align: "center" });
+      yPosition += 10;
+
+      for (const file of input.files) {
+        const base64 = await convertFileToBase64(file);
+
+        // Add image to the PDF
+        doc.addImage(base64, "PNG", leftIndent, yPosition, 60, 40); // Adjust dimensions as needed
+        yPosition += 50; // Adjust position for the next image
+
+        // Handle page overflow
+        if (yPosition > 250) {
+          doc.addPage();
+          yPosition = 45;
+        }
+      }
     }
   }
 
-  // Convert blob to Base64
-  function convertBlobToBase64(blob) {
+  // Convert file to Base64
+  function convertFileToBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
+      reader.onload = () => resolve(reader.result);
       reader.onerror = reject;
-      reader.readAsDataURL(blob);
+      reader.readAsDataURL(file);
     });
   }
 
