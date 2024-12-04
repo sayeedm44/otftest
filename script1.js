@@ -1,6 +1,56 @@
 document.addEventListener("DOMContentLoaded", function () {
   const { jsPDF } = window.jspdf;
 
+  // Convert blob to Base64
+  function convertBlobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  // Convert file to Base64
+  function convertFileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Function to load images from the DOM
+  async function getImageBase64(imgSelector) {
+    const imgElement = document.querySelector(imgSelector);
+    if (!imgElement || !imgElement.src) {
+      console.warn("Image not found or has no source:", imgSelector);
+      return null;
+    }
+
+    try {
+      const response = await fetch(imgElement.src);
+      const blob = await response.blob();
+      return await convertBlobToBase64(blob);
+    } catch (error) {
+      console.error("Error loading image:", error);
+      return null;
+    }
+  }
+
+  // Function to load logo as Base64
+  async function loadLogo(url) {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      return await convertBlobToBase64(blob);
+    } catch (error) {
+      console.error("Logo could not be loaded:", error);
+      return null;
+    }
+  }
+
   async function downloadPDF() {
     const doc = new jsPDF();
 
@@ -57,14 +107,6 @@ document.addEventListener("DOMContentLoaded", function () {
       yPosition += 10;
     }
 
-    // Center Customer Details heading
-    const customerDetailsText = "Customer Details";
-    doc.setFontSize(14);
-    doc.text(customerDetailsText, pageWidth / 2, yPosition, { align: "center" });
-
-    // Update Y position for Customer Details
-    yPosition += 10;
-
     // Add Cabin Details Section
     await addCabinDetailsSection(doc);
 
@@ -73,18 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Save the PDF with a custom title
     doc.save(pdfTitle);
-  }
-
-  // Function to load logo as Base64
-  async function loadLogo(url) {
-    try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      return await convertBlobToBase64(blob);
-    } catch (error) {
-      console.error("Logo could not be loaded:", error);
-      return null;
-    }
   }
 
   // Add Cabin Details Section
@@ -148,44 +178,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
     }
-  }
-
-  // Function to load images from the DOM
-  async function getImageBase64(imgSelector) {
-    const imgElement = document.querySelector(imgSelector);
-    if (!imgElement || !imgElement.src) {
-      console.warn("Image not found or has no source:", imgSelector);
-      return null;
-    }
-
-    try {
-      const response = await fetch(imgElement.src);
-      const blob = await response.blob();
-      return await convertBlobToBase64(blob);
-    } catch (error) {
-      console.error("Error loading image:", error);
-      return null;
-    }
-  }
-
-  // Convert file to Base64
-  function convertFileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-
-  // Convert blob to Base64
-  function convertBlobToBase64(blob) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
   }
 
   // Attach to global window object
