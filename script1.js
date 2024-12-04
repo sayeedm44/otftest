@@ -65,51 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Update Y position for Customer Details
     yPosition += 10;
 
-    // Form fields formatting for alignment
-    const formFields = document.querySelectorAll("input, select, textarea");
-
-    let isOrderDetailsStarted = false;
-
-    formFields.forEach((field) => {
-      if (field.type === "file") return; // Skip file inputs
-
-      const label = document.querySelector(`label[for="${field.id}"]`);
-      const labelText = label ? label.innerText : field.name || field.id;
-      const fieldValue = field.value;
-
-      // Skip adding Sales Person, Team Leader, and Referred by in Customer Details
-      if (["salesPerson", "teamLeader", "Refferedby"].includes(field.id)) {
-        return;
-      }
-
-      // Add each field label and value with left alignment
-      doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
-      yPosition += 10;
-
-      // Insert Order Details heading after "Cash & Account Commitments"
-      if (labelText.includes("Cash & Account Commitments") && !isOrderDetailsStarted) {
-        // Move to the next page for "Order Details"
-        doc.addPage();
-        addLogoToPage();
-        yPosition = 45;  // Reset Y position on the new page
-
-        // Center Order Details heading
-        const orderDetailsText = "Order Details";
-        doc.setFontSize(14);
-        doc.text(orderDetailsText, pageWidth / 2, yPosition, { align: "center" });
-        yPosition += 10;
-
-        isOrderDetailsStarted = true;
-      }
-
-      // Handle page overflow
-      if (yPosition > 250) {
-        doc.addPage();
-        addLogoToPage();
-        yPosition = 50;
-      }
-    });
-
     // Add Cabin Details Section
     await addCabinDetailsSection(doc);
 
@@ -134,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Add Cabin Details Section
   async function addCabinDetailsSection(doc) {
-    doc.addPage();
     const pageWidth = doc.internal.pageSize.getWidth();
     const leftIndent = 15;
     let yPosition = 45; // Reset Y position for the new page
@@ -196,6 +150,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // Function to load images from the DOM
+  async function getImageBase64(imgSelector) {
+    const imgElement = document.querySelector(imgSelector);
+    if (!imgElement || !imgElement.src) {
+      console.warn("Image not found or has no source:", imgSelector);
+      return null;
+    }
+
+    try {
+      const response = await fetch(imgElement.src);
+      const blob = await response.blob();
+      return await convertBlobToBase64(blob);
+    } catch (error) {
+      console.error("Error loading image:", error);
+      return null;
+    }
+  }
+
   // Convert file to Base64
   function convertFileToBase64(file) {
     return new Promise((resolve, reject) => {
@@ -203,6 +175,16 @@ document.addEventListener("DOMContentLoaded", function () {
       reader.onload = () => resolve(reader.result);
       reader.onerror = reject;
       reader.readAsDataURL(file);
+    });
+  }
+
+  // Convert blob to Base64
+  function convertBlobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
     });
   }
 
