@@ -91,16 +91,15 @@ textarea:focus {
 }
 
 .cabin-image {
-    flex: 0 0 200px; /* Adjusted size for cabin image */
-    max-width: 100%; /* Responsive size */
-    margin-left: 20px;
+    flex: 0 0 200px; /* Reduced fixed size for the cabin image */
+    margin-left: 10px; /* Adjusted margin for spacing */
 }
 
 .cabin-image img {
-    width: 100%; /* Full width for images */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 8px; /* Optional: Add rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+    max-width: 100%; /* Ensures the image stays within the container */
+    height: auto; /* Maintains the aspect ratio */
+    border-radius: 8px; /* Optional: Adds rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
 }
 
 /* Media Queries for Responsiveness */
@@ -114,9 +113,14 @@ textarea:focus {
     }
 
     .cabin-image {
-        flex: 0 0 auto; /* Allow flexible resizing */
+        flex: 0 0 150px; /* Smaller size for medium screens */
         margin-left: 0;
-        margin-top: 15px;
+        margin-top: 10px; /* Space above when stacked */
+    }
+
+    .cabin-image img {
+        max-width: 100%; /* Ensures the image scales properly */
+        height: auto;
     }
 
     h1 {
@@ -142,7 +146,7 @@ textarea:focus {
     }
 
     .cabin-image {
-        flex: 0 0 150px; /* Smaller image for very small screens */
+        flex: 0 0 120px; /* Further reduced size for small screens */
     }
 
     button {
