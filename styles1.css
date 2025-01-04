@@ -99,8 +99,6 @@ textarea:focus {
 .cabin-image img {
     width: 100%; /* Full width for images */
     height: auto;
-    border-radius: 5px; /* Rounded corners for images */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Light shadow for images */
 }
 
 /* Media Queries for Responsiveness */
