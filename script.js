@@ -8,22 +8,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const logo = await loadLogo("logo.png");
 
     // Retrieve form values to create a PDF title
-    const customerName = document.getElementById("customerName")?.value || "Customer";
-    const city = document.getElementById("city")?.value || "City";
-    const area = document.getElementById("area")?.value || "Area";
-    const floors = document.getElementById("floors")?.value || "Floors";
-    const model = document.getElementById("model")?.value || "Model";
+    const customerName = document.getElementById("Customername")?.value || "Customer";
+    const city = document.getElementById("City")?.value || "City";
+    const area = document.getElementById("Area")?.value || "Area";
+    const floors = document.getElementById("Floors")?.value || "Floors";
+    const model = document.getElementById("Model")?.value || "Model";
     const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
 
     // Helper function to add logo to page
-    function addLogoToPage() {
+    function addLogoToPage(logo) {
       if (logo) {
         doc.addImage(logo, "PNG", 10, 10, 30, 30); // Fixed position for logo
       }
     }
 
     // Add logo to the first page
-    addLogoToPage();
+    addLogoToPage(logo);
 
     // Center title text below the logo
     const titleText = "Brio Elevators OTF Form";
@@ -41,9 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.text(salesTeamText, pageWidth / 2, yPosition, { align: "center" });
 
     // Retrieve dynamic values for Sales Team section
-    const salesPerson = document.getElementById("salesPerson")?.value || "N/A";
-    const teamLeader = document.getElementById("teamLeader")?.value || "N/A";
-    const referredBy = document.getElementById("referredBy")?.value || "N/A"; // Retrieve referredBy
+    const salesPerson = document.getElementById("Salesperson")?.value || "N/A";
+    const teamLeader = document.getElementById("TeamLeader")?.value || "N/A";
+    const referredBy = document.getElementById("Refferedby")?.value || "N/A";
 
     // Update Y position to start below "Sales Team"
     yPosition += 10;
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const fieldValue = field.value || "N/A";
 
       // Skip adding Sales Person, Team Leader, and Referred by in Customer Details
-      if (["salesPerson", "teamLeader", "referredBy"].includes(field.id)) {
+      if (["Salesperson", "TeamLeader", "Refferedby"].includes(field.id)) {
         return;
       }
 
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Handle page overflow
       if (yPosition > 250) {
         doc.addPage();
-        addLogoToPage();
+        addLogoToPage(logo);
         yPosition = 50;
       }
     });
