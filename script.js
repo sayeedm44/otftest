@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
   async function downloadPDF() {
     const doc = new jsPDF();
 
+    // Set the background color of the PDF
+    doc.setFillColor("#e9ecef");
+    doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
+
     // Load the logo as a Base64 image
     const logo = await loadLogo("logo.png");
 
@@ -103,6 +107,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if (yPosition > 250) {
         doc.addPage();
         addLogoToPage();
+        doc.setFillColor("#e9ecef"); // Set background color for new page
+        doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
         yPosition = 50;
       }
     });
