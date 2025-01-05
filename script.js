@@ -94,18 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
       yPosition += 10;
 
-      // Insert Order Details heading when reaching specific field
-      if (labelText.includes("Cash & Account Commitments")) {
-        yPosition += 10;
-
-        // Center Order Details heading
-        const orderDetailsText = "Order Details";
-        doc.setFontSize(14);
-        doc.text(orderDetailsText, pageWidth / 2, yPosition, { align: "center" });
-
-        yPosition += 10;
-      }
-
       // Handle page overflow
       if (yPosition > 250) {
         doc.addPage();
@@ -113,6 +101,46 @@ document.addEventListener("DOMContentLoaded", function () {
         doc.setFillColor("#e9ecef"); // Set background color for new page
         doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
         yPosition = 50;
+      }
+    });
+
+    // Add new page for Order Details
+    doc.addPage();
+    addLogoToPage();
+    doc.setFillColor("#e9ecef"); // Set background color for new page
+    doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
+
+    // Center Order Details heading
+    const orderDetailsText = "Order Details";
+    doc.setFontSize(14);
+    yPosition = 20; // Start at the top of the new page
+    doc.text(orderDetailsText, pageWidth / 2, yPosition, { align: "center" });
+
+    // Update Y position for Order Details
+    yPosition += 10;
+
+    // Form fields formatting for Order Details
+    formFields.forEach((field) => {
+      if (field.type === "file") return; // Skip file inputs
+
+      const label = document.querySelector(`label[for="${field.id}"]`);
+      const labelText = label ? label.innerText : field.name || field.id;
+      const fieldValue = field.value || "N/A";
+
+      // Only process fields for Order Details and beyond
+      if (labelText.includes("Model") || labelText.includes("Structure") || labelText.includes("Cabin Type") || labelText.includes("Additional Features") || labelText.includes("COP/LOP") || labelText.includes("Terms of Sale") || labelText.includes("Scope of Work") || labelText.includes("Documents Collected") || labelText.includes("Upload Photos") || labelText.includes("Additional Remarks")) {
+        // Add each field label and value with left alignment
+        doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
+        yPosition += 10;
+
+        // Handle page overflow
+        if (yPosition > 250) {
+          doc.addPage();
+          addLogoToPage();
+          doc.setFillColor("#e9ecef"); // Set background color for new page
+          doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
+          yPosition = 50;
+        }
       }
     });
 
