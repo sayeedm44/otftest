@@ -37,8 +37,8 @@ label {
     display: block; /* Ensure label is displayed as block */
 }
 
-/* Ensure consistent styling for input and select elements */
-input, select {
+/* Ensure consistent styling for input, select, and textarea elements */
+input, select, textarea {
     width: 100%; /* Full width for inputs */
     max-width: 100%; /* Ensure max width is set to 100% */
     margin-bottom: 15px; /* Space below inputs */
@@ -47,8 +47,7 @@ input, select {
     border-radius: 5px; /* Rounded corners */
     transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
     font-size: 1em; /* Uniform font size */
-    height: 38px; /* Set a consistent height */
-    box-sizing: border-box; /* Change box-sizing to content-box */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
 
 textarea {
