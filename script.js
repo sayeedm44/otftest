@@ -26,6 +26,14 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
+    // Add logo and background color to a new page
+    function addNewPage() {
+      doc.addPage();
+      addLogoToPage();
+      doc.setFillColor("#e9ecef");
+      doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
+    }
+
     // Add logo to the first page
     addLogoToPage();
 
@@ -102,10 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Check if space is enough for "Order Details" heading
         if (yPosition > 230) {
-          doc.addPage();
-          addLogoToPage();
-          doc.setFillColor("#e9ecef"); // Set background color for new page
-          doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
+          addNewPage();
           yPosition = 50;
         }
 
@@ -120,10 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Handle page overflow
       if (yPosition > 250) {
-        doc.addPage();
-        addLogoToPage();
-        doc.setFillColor("#e9ecef"); // Set background color for new page
-        doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
+        addNewPage();
         yPosition = 50;
       }
     });
