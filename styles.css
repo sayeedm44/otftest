@@ -48,7 +48,7 @@ input, select {
     transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
     font-size: 1em; /* Uniform font size */
     height: 38px; /* Set a consistent height */
-    box-sizing: content-box; /* Change box-sizing to content-box */
+    box-sizing: border-box; /* Change box-sizing to content-box */
 }
 
 textarea {
