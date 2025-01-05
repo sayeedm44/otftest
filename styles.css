@@ -46,6 +46,7 @@ input, select, button, textarea {
     border-radius: 5px; /* Rounded corners */
     transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
     font-size: 1em; /* Uniform font size */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
 
 textarea {
