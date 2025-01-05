@@ -1,191 +1,21 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #e9ecef; /* Light gray background */
-}
+<h2>Cabin Details</h2>
+<div class="cabin-container">
+    <div class="cabin-details">
+        <label for="CabinType">Cabin Type:</label>
+        <select id="CabinType" name="CabinType">
+            <option value="Classic">Classic</option>
+            <option value="Pro">Pro</option>
+            <option value="Elegance">Elegance</option>
+        </select>
 
-.container {
-    max-width: 800px; /* Width for larger screens */
-    margin: auto;
-    padding: 30px; /* Padding for spacing */
-    background: linear-gradient(135deg, #ffffff, #f0f0f0); /* Subtle gradient */
-    border-radius: 12px; /* Rounded corners */
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-    overflow: hidden;
-}
+        <label for="GlassWall">Glass Wall in Cabin:</label>
+        <select id="GlassWall" name="GlassWall">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+    </div>
 
-h1, h2 {
-    text-align: center;
-    color: #343a40; /* Darker text for contrast */
-}
-
-h1 {
-    font-size: 2.5em; /* Main title size */
-    margin-bottom: 20px; /* Space below title */
-}
-
-h2 {
-    font-size: 1.8em; /* Sub-title size */
-    margin: 30px 0 15px; /* Space above and below sub-titles */
-}
-
-label {
-    font-weight: bold; /* Bold labels */
-    color: #495057; /* Subtle text color */
-    margin-top: 10px; /* Space above labels */
-    display: block; /* Ensure label is displayed as block */
-}
-
-input, select, button, textarea {
-    width: 100%; /* Full width for inputs */
-    margin-bottom: 15px; /* Space below inputs */
-    padding: 10px; /* Padding for inputs */
-    border: 1px solid #ced4da; /* Light border */
-    border-radius: 5px; /* Rounded corners */
-    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
-    font-size: 1em;
-}
-
-textarea {
-    resize: vertical; /* Allow resizing vertically */
-    min-height: 80px; /* Minimum height for textareas */
-}
-
-input[type="file"] {
-    padding: 5px;
-}
-
-button {
-    background-color: #007bff; /* Button color */
-    color: white;
-    padding: 12px; /* Padding for buttons */
-    border: none;
-    cursor: pointer;
-    border-radius: 5px; /* Rounded corners */
-    font-size: 1.1em; /* Button font size */
-    transition: background-color 0.3s; /* Button hover transition */
-}
-
-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
-
-button:focus,
-input:focus,
-select:focus,
-textarea:focus {
-    border-color: #80bdff; /* Border color on focus */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    outline: none;
-}
-
-.cabin-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.cabin-details {
-    flex: 1; /* Flexible size for cabin details */
-    margin-right: 10px; /* Space between details and image */
-}
-
-.cabin-image {
-    flex: 0 0 100px; /* Fixed size for the cabin image */
-    margin-left: 10px; /* Space to the left of the image */
-    float: right; /* Align the image to the right */
-}
-
-.cabin-image img {
-    max-width: 100px; /* Ensures the image stays within the container */
-    height: auto; /* Maintains the aspect ratio */
-    border-radius: 8px; /* Optional: Adds rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
-}
-
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
-    .container {
-        padding: 20px;
-    }
-
-    .cabin-container {
-        flex-direction: column; /* Stack elements on smaller screens */
-    }
-
-    .cabin-image {
-        flex: 0 0 100px; /* Smaller size for medium screens */
-        margin-left: 0;
-        margin-top: 10px; /* Space above when stacked */
-        float: none; /* Remove float on smaller screens */
-    }
-
-    .cabin-image img {
-        max-width: 100%; /* Ensures the image scales properly */
-        height: auto;
-    }
-
-    h1 {
-        font-size: 2em; /* Adjusted font size for smaller screens */
-    }
-
-    h2 {
-        font-size: 1.5em; /* Adjusted font size for smaller screens */
-    }
-
-    label, input, select, button, textarea {
-        font-size: 14px; /* Slightly smaller font for readability */
-    }
-
-    button {
-        padding: 10px; /* Adjust button padding */
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 15px; /* Less padding on small screens */
-    }
-
-    .cabin-image {
-        flex: 0 0 80px; /* Further reduced size for small screens */
-    }
-
-    button {
-        padding: 10px; /* Adjust button size */
-    }
-
-    label, input, select, button, textarea {
-        font-size: 13px; /* Smaller font size for mobile */
-    }
-
-    h1 {
-        font-size: 1.8em; /* Smaller title size */
-    }
-
-    h2 {
-        font-size: 1.3em; /* Smaller sub-title size */
-    }
-}
-
-/* Styles for file input instructions */
-p {
-    font-size: 0.9em;
-    color: #6c757d; /* Subtle text color */
-    margin-bottom: 15px;
-}
-
-/* Special styling for the download PDF button */
-button[type="button"] {
-    display: block;
-    width: 100%;
-    max-width: 300px;
-    margin: 20px auto; /* Center the button */
-}
-
-/* Responsive styling for select elements with multiple options */
-select[multiple] {
-    height: auto;
-    min-height: 100px;
-}
+    <div class="cabin-image">
+        <img src="cabin.png" alt="Cabin-image">
+    </div>
+</div>
