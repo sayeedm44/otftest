@@ -100,6 +100,15 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!orderDetailsAdded && labelText.includes("Cash & Account Commitments")) {
         yPosition += 10;
 
+        // Check if space is enough for "Order Details" heading
+        if (yPosition > 230) {
+          doc.addPage();
+          addLogoToPage();
+          doc.setFillColor("#e9ecef"); // Set background color for new page
+          doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
+          yPosition = 50;
+        }
+
         // Center Order Details heading
         const orderDetailsText = "Order Details";
         doc.setFontSize(14);
