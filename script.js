@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Retrieve dynamic values for Sales Team section
     const salesPerson = document.getElementById("Salesperson")?.value || "N/A";
     const teamLeader = document.getElementById("TeamLeader")?.value || "N/A";
-    const referredBy = document.getElementById("Refferedby")?.value || "N/A";
     const crmPerson = document.getElementById("Crmperson")?.value || "N/A";
+    const referredBy = document.getElementById("Refferedby")?.value || "N/A";
 
     // Update Y position to start below "Sales Team"
     yPosition += 10;
@@ -57,16 +57,15 @@ document.addEventListener("DOMContentLoaded", function () {
     yPosition += 10;
     doc.text(`Team Leader Involved: ${teamLeader}`, leftIndent, yPosition);
     yPosition += 10;
+    doc.text(`CRM Person: ${crmPerson}`, leftIndent, yPosition);
+    yPosition += 10;
 
     // Add "Referred by" only if it has a non-empty value and is not "N/A"
     if (referredBy && referredBy !== "N/A") {
       doc.text(`Referred by: ${referredBy}`, leftIndent, yPosition);
       yPosition += 10;
     }
-
-    // Add CRM Person
-    doc.text(`CRM Person: ${crmPerson}`, leftIndent, yPosition);
-    yPosition += 15; // Increase yPosition to add a little more space after CRM Person
+    yPosition += 5;
 
     // Center Customer Details heading
     const customerDetailsText = "Customer Details";
@@ -86,8 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const labelText = label ? label.innerText : field.name || field.id;
       const fieldValue = field.value || "N/A";
 
-      // Skip adding Sales Person, Team Leader, Referred by, and CRM Person in Customer Details
-      if (["Salesperson", "TeamLeader", "Refferedby", "Crmperson"].includes(field.id)) {
+      // Skip adding Sales Person, Team Leader, CRM Person, and Referred by in Customer Details
+      if (["Salesperson", "TeamLeader", "Crmperson", "Refferedby"].includes(field.id)) {
         return;
       }
 
