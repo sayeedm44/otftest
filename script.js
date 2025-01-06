@@ -91,6 +91,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let orderDetailsAdded = false;
     let cabinDetailsAdded = false;
+
+    // To keep track of added fields and avoid duplicates
     const addedFields = new Set();
 
     formFields.forEach((field) => {
@@ -106,10 +108,11 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Avoid duplicate entries
-      if (addedFields.has(field.id)) {
+      const uniqueFieldKey = `${labelText}: ${fieldValue}`;
+      if (addedFields.has(uniqueFieldKey)) {
         return;
       }
-      addedFields.add(field.id);
+      addedFields.add(uniqueFieldKey);
 
       // Add each field label and value with left alignment
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
@@ -154,6 +157,12 @@ document.addEventListener("DOMContentLoaded", function () {
           const imageYPosition = yPosition; // Align image height with the text
           doc.addImage(cabinImage, "PNG", imageXPosition, imageYPosition, 50, 50); // Adjust the size and position as needed
         }
+      }
+
+      // Add each field label and value with left alignment for Cabin Details
+      if (cabinDetailsAdded && (field.id !== "Floors")) {
+        doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
+        yPosition += 10;
       }
 
       // Handle page overflow
