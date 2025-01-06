@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Insert Cabin Details heading after "No of Floors" in Order Details
-      if (!cabinDetailsAdded && field.id === "Floors") {
+      if (!cabinDetailsAdded && labelText.includes("No of Floors")) {
         // Force a new page for Cabin Details section
         addNewPage();
         yPosition = 50;
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Add each field label and value with left alignment for Cabin Details
-      if (cabinDetailsAdded && (field.id !== "Floors")) {
+      if (cabinDetailsAdded) {
         doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
         yPosition += 10;
       }
