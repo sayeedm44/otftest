@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const formFields = document.querySelectorAll("input, select, textarea");
 
     let orderDetailsAdded = false;
+    let cabinDetailsAdded = false;
 
     formFields.forEach((field) => {
       if (field.type === "file") return; // Skip file inputs
@@ -123,6 +124,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
         yPosition += 10;
         orderDetailsAdded = true;
+      }
+
+      // Insert Cabin Details heading after "No of Floors"
+      if (!cabinDetailsAdded && labelText.includes("No of Floors")) {
+        yPosition += 10;
+
+        // Check if space is enough for "Cabin Details" heading
+        if (yPosition > 230) {
+          addNewPage();
+          yPosition = 50;
+        }
+
+        // Center Cabin Details heading
+        const cabinDetailsText = "Cabin Details";
+        doc.setFontSize(14);
+        doc.text(cabinDetailsText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+        cabinDetailsAdded = true;
       }
 
       // Handle page overflow
