@@ -141,11 +141,18 @@ document.addEventListener("DOMContentLoaded", function () {
         yPosition += 10;
         cabinDetailsAdded = true;
 
-        // Add cabin image
+        // Add cabin image on the right side
         if (cabinImage) {
-          doc.addImage(cabinImage, "PNG", leftIndent, yPosition, 50, 50); // Adjust the size and position as needed
-          yPosition += 60; // Adjust the Y position after adding the image
+          const imageXPosition = pageWidth - 65; // Adjust X position to the right side
+          const imageYPosition = yPosition; // Align image height with the text
+          doc.addImage(cabinImage, "PNG", imageXPosition, imageYPosition, 50, 50); // Adjust the size and position as needed
         }
+      }
+
+      // Add each field label and value with left alignment for Cabin Details
+      if (cabinDetailsAdded) {
+        doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
+        yPosition += 10;
       }
 
       // Handle page overflow
