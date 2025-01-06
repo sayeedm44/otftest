@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Add each field label and value with left alignment for Cabin Details
-      if (cabinDetailsAdded) {
+      if (cabinDetailsAdded && (field.id !== "Floors")) {
         doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
         yPosition += 10;
       }
