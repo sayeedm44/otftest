@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let orderDetailsAdded = false;
     let cabinDetailsAdded = false;
+    const addedFields = new Set();
 
     formFields.forEach((field) => {
       if (field.type === "file") return; // Skip file inputs
@@ -108,6 +109,12 @@ document.addEventListener("DOMContentLoaded", function () {
       if (cabinDetailsAdded && field.id === "Floors") {
         return;
       }
+
+      // Avoid duplicate entries
+      if (addedFields.has(field.id)) {
+        return;
+      }
+      addedFields.add(field.id);
 
       // Add each field label and value with left alignment
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
@@ -152,11 +159,6 @@ document.addEventListener("DOMContentLoaded", function () {
           const imageYPosition = yPosition; // Align image height with the text
           doc.addImage(cabinImage, "PNG", imageXPosition, imageYPosition, 50, 50); // Adjust the size and position as needed
         }
-      }
-
-      // Skip duplicate entries for "Cabin Type" and "Glass Wall in Cabin"
-      if (cabinDetailsAdded && (field.id === "CabinType" || field.id === "GlassWall")) {
-        return;
       }
 
       // Add each field label and value with left alignment for Cabin Details
