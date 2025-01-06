@@ -105,11 +105,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // Skip adding "No of Floors" in Cabin Details section
-      if (cabinDetailsAdded && field.id === "Floors") {
-        return;
-      }
-
       // Avoid duplicate entries
       if (addedFields.has(field.id)) {
         return;
@@ -159,12 +154,6 @@ document.addEventListener("DOMContentLoaded", function () {
           const imageYPosition = yPosition; // Align image height with the text
           doc.addImage(cabinImage, "PNG", imageXPosition, imageYPosition, 50, 50); // Adjust the size and position as needed
         }
-      }
-
-      // Add each field label and value with left alignment for Cabin Details
-      if (cabinDetailsAdded && (field.id !== "Floors")) {
-        doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
-        yPosition += 10;
       }
 
       // Handle page overflow
