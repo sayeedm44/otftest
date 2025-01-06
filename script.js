@@ -10,8 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
       doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
     }
 
-    // Load the logo as a Base64 image
-    const logo = await loadLogo("logo.png");
+    // Load the logo and cabin images as Base64
+    const logo = await loadImageAsBase64("logo.png");
+    const cabinImage = await loadImageAsBase64("cabin.png");
 
     // Retrieve form values to create a PDF title
     const customerName = document.getElementById("Customername")?.value || "Customer";
@@ -143,6 +144,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         yPosition += 10;
         cabinDetailsAdded = true;
+
+        // Add cabin image
+        if (cabinImage) {
+          doc.addImage(cabinImage, "PNG", leftIndent, yPosition, 50, 50); // Adjust the size and position as needed
+          yPosition += 60; // Adjust the Y position after adding the image
+        }
       }
 
       // Handle page overflow
@@ -156,14 +163,14 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.save(pdfTitle);
   }
 
-  // Function to load logo as Base64
-  async function loadLogo(url) {
+  // Function to load image as Base64
+  async function loadImageAsBase64(url) {
     try {
       const response = await fetch(url);
       const blob = await response.blob();
       return await convertBlobToBase64(blob);
     } catch (error) {
-      console.error("Logo could not be loaded:", error);
+      console.error("Image could not be loaded:", error);
       return null;
     }
   }
