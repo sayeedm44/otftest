@@ -129,13 +129,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Insert Cabin Details heading after "No of Floors"
       if (!cabinDetailsAdded && labelText.includes("No of Floors")) {
-        yPosition += 10;
-
-        // Check if space is enough for "Cabin Details" heading
-        if (yPosition > 230) {
-          addNewPage();
-          yPosition = 50;
-        }
+        // Force a new page for Cabin Details section
+        addNewPage();
+        yPosition = 50;
 
         // Center Cabin Details heading
         const cabinDetailsText = "Cabin Details";
