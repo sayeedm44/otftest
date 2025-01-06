@@ -5,8 +5,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const doc = new jsPDF();
 
     // Set the background color of the PDF
-    doc.setFillColor("#e9ecef");
-    doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
+    function setBackground() {
+      doc.setFillColor("#e9ecef");
+      doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
+    }
 
     // Load the logo as a Base64 image
     const logo = await loadLogo("logo.png");
@@ -29,12 +31,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add logo and background color to a new page
     function addNewPage() {
       doc.addPage();
+      setBackground();
       addLogoToPage();
-      doc.setFillColor("#e9ecef");
-      doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
     }
 
-    // Add logo to the first page
+    // Add logo and background color to the first page
+    setBackground();
     addLogoToPage();
 
     // Center title text below the logo
