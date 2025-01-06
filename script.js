@@ -104,6 +104,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
+      // Skip adding "No of Floors" in Cabin Details section
+      if (cabinDetailsAdded && field.id === "Floors") {
+        return;
+      }
+
       // Add each field label and value with left alignment
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
       yPosition += 10;
@@ -127,8 +132,8 @@ document.addEventListener("DOMContentLoaded", function () {
         orderDetailsAdded = true;
       }
 
-      // Insert Cabin Details heading after "No of Floors"
-      if (!cabinDetailsAdded && labelText.includes("No of Floors")) {
+      // Insert Cabin Details heading after "No of Floors" in Order Details
+      if (!cabinDetailsAdded && field.id === "Floors") {
         // Force a new page for Cabin Details section
         addNewPage();
         yPosition = 50;
@@ -147,6 +152,11 @@ document.addEventListener("DOMContentLoaded", function () {
           const imageYPosition = yPosition; // Align image height with the text
           doc.addImage(cabinImage, "PNG", imageXPosition, imageYPosition, 50, 50); // Adjust the size and position as needed
         }
+      }
+
+      // Skip duplicate entries for "Cabin Type" and "Glass Wall in Cabin"
+      if (cabinDetailsAdded && (field.id === "CabinType" || field.id === "GlassWall")) {
+        return;
       }
 
       // Add each field label and value with left alignment for Cabin Details
