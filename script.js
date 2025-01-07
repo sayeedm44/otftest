@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let orderDetailsAdded = false;
     let cabinDetailsAdded = false;
+    let cabinDesignAdded = false;
 
     // To keep track of added fields and avoid duplicates
     const addedFields = new Set();
@@ -157,6 +158,25 @@ document.addEventListener("DOMContentLoaded", function () {
           const imageYPosition = yPosition; // Align image height with the text
           doc.addImage(cabinImage, "PNG", imageXPosition, imageYPosition, 50, 50); // Adjust the size and position as needed
         }
+      }
+
+      // Insert Cabin Design heading after "Glass Wall in Cabin"
+      if (!cabinDesignAdded && labelText.includes("Glass Wall in Cabin")) {
+        yPosition += 10;
+
+        // Check if space is enough for "Cabin Design" heading
+        if (yPosition > 230) {
+          addNewPage();
+          yPosition = 50;
+        }
+
+        // Center Cabin Design heading
+        const cabinDesignText = "Cabin Design";
+        doc.setFontSize(14);
+        doc.text(cabinDesignText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+        cabinDesignAdded = true;
       }
 
       // Add each field label and value with left alignment for Cabin Details
