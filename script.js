@@ -121,6 +121,107 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       addedFields.add(uniqueFieldKey);
 
+      // Skip "No of Floors" if already present in Order Details
+      if (orderDetailsAdded && labelText.includes("No of Floors")) {
+        return;
+      }
+
+      // Skip duplicate "Cabin Type"
+      if (cabinDetailsAdded && labelText.includes("Cabin Type")) {
+        return;
+      }
+
+      // Skip "Glass Wall in Cabin" if already present in Cabin Details
+      if (cabinDetailsAdded && labelText.includes("Glass Wall in Cabin")) {
+        return;
+      }
+
+      // Skip duplicate fields in Cabin Design section
+      if (
+        cabinDesignAdded &&
+        [
+          "A Side", "B Side", "C Side", "Door Side", "Handrail", "Ceiling",
+          "Door Type", "Door Opening"
+        ].some(text => labelText.includes(text))
+      ) {
+        return;
+      }
+
+      // Skip "Cabin Flooring" if already present in Cabin Design section
+      if (cabinDesignAdded && labelText.includes("Cabin Flooring")) {
+        return;
+      }
+
+      // Skip duplicate fields in Additional Features section
+      if (
+        additionalFeaturesAdded &&
+        ["Safety Alarm", "Intercom phone", "Voice Announcer"].some(text => labelText.includes(text))
+      ) {
+        return;
+      }
+
+      // Skip "Voice Announcer" if already present in Additional Features
+      if (additionalFeaturesAdded && labelText.includes("Voice Announcer")) {
+        return;
+      }
+
+      // Skip duplicate fields in COP/LOP Details section
+      if (
+        copLopDetailsAdded &&
+        ["COP/LOP", "COP/LOP Color", "Authentication", "Authentication Need"].some(text => labelText.includes(text))
+      ) {
+        return;
+      }
+
+      // Skip "Basic Cost of the Lift" if already present in different section
+      if (paymentTermsAdded && labelText.includes("Basic Cost of the Lift")) {
+        return;
+      }
+
+      // Skip duplicate fields in Payment Terms section
+      if (
+        paymentTermsAdded &&
+        [
+          "GST", "Installation Charges", "Transportation Charges", "Advance Payment Collected",
+          "While Placing Order", "After Signing the drawings", "Readiness Notification From Factory",
+          "Material Reaching Site", "Comprehensive AMC Per Annum"
+        ].some(text => labelText.includes(text))
+      ) {
+        return;
+      }
+
+      // Skip "Non Comprehensive AMC Per Annum" if already present in Payment Terms
+      if (paymentTermsAdded && labelText.includes("Non Comprehensive AMC Per Annum")) {
+        return;
+      }
+
+      // Skip duplicate fields in Scope of Work section
+      if (
+        scopeOfWorkAdded &&
+        [
+          "Transportation", "Unloading Material at site", "Stabilizer", "Scaffolding",
+          "Any Civil Works", "Glass Or Acp for Shaft", "Warranty", "Service"
+        ].some(text => labelText.includes(text))
+      ) {
+        return;
+      }
+
+      // Skip "Service" if already present in Scope of Work section
+      if (scopeOfWorkAdded && labelText.includes("Service")) {
+        return;
+      }
+
+      // Skip duplicate fields in Documents Collected section
+      if (
+        documentsCollectedAdded &&
+        [
+          "Original Signed Quotation", "PAN Card Copy Of Customer", "Additional Remarks",
+          "Quotation Approved by", "OTF Approved BY"
+        ].some(text => labelText.includes(text))
+      ) {
+        return;
+      }
+
       // Add each field label and value with left alignment
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
       yPosition += 10;
