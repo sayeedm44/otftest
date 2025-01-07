@@ -92,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let orderDetailsAdded = false;
     let cabinDetailsAdded = false;
     let cabinDesignAdded = false;
+    let additionalFeaturesAdded = false;
 
     // To keep track of added fields and avoid duplicates
     const addedFields = new Set();
@@ -177,6 +178,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
         yPosition += 10;
         cabinDesignAdded = true;
+      }
+
+      // Insert Additional Features heading after "Cabin Flooring"
+      if (!additionalFeaturesAdded && labelText.includes("Cabin Flooring")) {
+        yPosition += 10;
+
+        // Check if space is enough for "Additional Features" heading
+        if (yPosition > 230) {
+          addNewPage();
+          yPosition = 50;
+        }
+
+        // Center Additional Features heading
+        const additionalFeaturesText = "Additional Features";
+        doc.setFontSize(14);
+        doc.text(additionalFeaturesText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+        additionalFeaturesAdded = true;
       }
 
       // Add each field label and value with left alignment for Cabin Details
