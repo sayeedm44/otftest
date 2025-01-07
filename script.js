@@ -97,6 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let termsOfSaleAdded = false;
     let paymentTermsAdded = false;
     let scopeOfWorkAdded = false;
+    let documentsCollectedAdded = false;
 
     // To keep track of added fields and avoid duplicates
     const addedFields = new Set();
@@ -279,6 +280,25 @@ document.addEventListener("DOMContentLoaded", function () {
         scopeOfWorkAdded = true;
       }
 
+      // Insert Documents Collected heading after "Service"
+      if (!documentsCollectedAdded && labelText.includes("Service")) {
+        yPosition += 10;
+
+        // Check if space is enough for "Documents Collected" heading
+        if (yPosition > 230) {
+          addNewPage();
+          yPosition = 50;
+        }
+
+        // Center Documents Collected heading
+        const documentsCollectedText = "Documents Collected";
+        doc.setFontSize(14);
+        doc.text(documentsCollectedText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+        documentsCollectedAdded = true;
+      }
+
       // Add each field label and value with left alignment for Cabin Details
       if (
         cabinDetailsAdded ||
@@ -286,7 +306,8 @@ document.addEventListener("DOMContentLoaded", function () {
         copLopDetailsAdded ||
         termsOfSaleAdded ||
         paymentTermsAdded ||
-        scopeOfWorkAdded
+        scopeOfWorkAdded ||
+        documentsCollectedAdded
       ) {
         doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
         yPosition += 10;
