@@ -96,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let copLopDetailsAdded = false;
     let termsOfSaleAdded = false;
     let paymentTermsAdded = false;
+    let scopeOfWorkAdded = false;
 
     // To keep track of added fields and avoid duplicates
     const addedFields = new Set();
@@ -259,8 +260,34 @@ document.addEventListener("DOMContentLoaded", function () {
         paymentTermsAdded = true;
       }
 
+      // Insert Scope of Work heading after "Non Comprehensive AMC Per Annum"
+      if (!scopeOfWorkAdded && labelText.includes("Non Comprehensive AMC Per Annum")) {
+        yPosition += 10;
+
+        // Check if space is enough for "Scope of Work" heading
+        if (yPosition > 230) {
+          addNewPage();
+          yPosition = 50;
+        }
+
+        // Center Scope of Work heading
+        const scopeOfWorkText = "Scope of Work";
+        doc.setFontSize(14);
+        doc.text(scopeOfWorkText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+        scopeOfWorkAdded = true;
+      }
+
       // Add each field label and value with left alignment for Cabin Details
-      if (cabinDetailsAdded || additionalFeaturesAdded || copLopDetailsAdded || termsOfSaleAdded || paymentTermsAdded) {
+      if (
+        cabinDetailsAdded ||
+        additionalFeaturesAdded ||
+        copLopDetailsAdded ||
+        termsOfSaleAdded ||
+        paymentTermsAdded ||
+        scopeOfWorkAdded
+      ) {
         doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
         yPosition += 10;
       }
