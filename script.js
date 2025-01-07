@@ -94,6 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let cabinDesignAdded = false;
     let additionalFeaturesAdded = false;
     let copLopDetailsAdded = false;
+    let termsOfSaleAdded = false;
 
     // To keep track of added fields and avoid duplicates
     const addedFields = new Set();
@@ -219,8 +220,27 @@ document.addEventListener("DOMContentLoaded", function () {
         copLopDetailsAdded = true;
       }
 
+      // Insert Terms of Sale heading before "Basic Cost of the Lift"
+      if (!termsOfSaleAdded && labelText.includes("Basic Cost of the Lift")) {
+        yPosition += 10;
+
+        // Check if space is enough for "Terms of Sale" heading
+        if (yPosition > 230) {
+          addNewPage();
+          yPosition = 50;
+        }
+
+        // Center Terms of Sale heading
+        const termsOfSaleText = "Terms of Sale";
+        doc.setFontSize(14);
+        doc.text(termsOfSaleText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+        termsOfSaleAdded = true;
+      }
+
       // Add each field label and value with left alignment for Cabin Details
-      if (cabinDetailsAdded || additionalFeaturesAdded || copLopDetailsAdded) {
+      if (cabinDetailsAdded || additionalFeaturesAdded || copLopDetailsAdded || termsOfSaleAdded) {
         doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
         yPosition += 10;
       }
