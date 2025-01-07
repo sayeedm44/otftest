@@ -95,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let additionalFeaturesAdded = false;
     let copLopDetailsAdded = false;
     let termsOfSaleAdded = false;
+    let paymentTermsAdded = false;
 
     // To keep track of added fields and avoid duplicates
     const addedFields = new Set();
@@ -239,8 +240,27 @@ document.addEventListener("DOMContentLoaded", function () {
         termsOfSaleAdded = true;
       }
 
+      // Insert Payment Terms heading after "Terms of Sale"
+      if (termsOfSaleAdded && !paymentTermsAdded) {
+        yPosition += 10;
+
+        // Check if space is enough for "Payment Terms" heading
+        if (yPosition > 230) {
+          addNewPage();
+          yPosition = 50;
+        }
+
+        // Center Payment Terms heading
+        const paymentTermsText = "Payment Terms";
+        doc.setFontSize(14);
+        doc.text(paymentTermsText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+        paymentTermsAdded = true;
+      }
+
       // Add each field label and value with left alignment for Cabin Details
-      if (cabinDetailsAdded || additionalFeaturesAdded || copLopDetailsAdded || termsOfSaleAdded) {
+      if (cabinDetailsAdded || additionalFeaturesAdded || copLopDetailsAdded || termsOfSaleAdded || paymentTermsAdded) {
         doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
         yPosition += 10;
       }
