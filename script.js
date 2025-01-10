@@ -262,6 +262,21 @@ document.addEventListener("DOMContentLoaded", function () {
         paymentTermsAdded = true;
       }
 
+      // Move "Basic Cost of the Lift" addition after Payment Terms
+      if (!basicCostAdded && labelText.includes("Basic Cost of the Lift")) {
+        yPosition += 10;
+
+        // Check if space is enough for "Basic Cost of the Lift" field
+        if (yPosition > 230) {
+          addNewPage();
+          yPosition = 50;
+        }
+
+        doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
+        yPosition += 10;
+        basicCostAdded = true;
+      }
+
       // Insert Scope of Work heading after "Non Comprehensive AMC Per Annum"
       if (!scopeOfWorkAdded && labelText.includes("Non Comprehensive AMC Per Annum")) {
         yPosition += 10;
@@ -279,21 +294,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         yPosition += 10;
         scopeOfWorkAdded = true;
-      }
-
-      // Move "Basic Cost of the Lift" addition after Payment Terms
-      if (!basicCostAdded && labelText.includes("Basic Cost of the Lift")) {
-        yPosition += 10;
-
-        // Check if space is enough for "Basic Cost of the Lift" field
-        if (yPosition > 230) {
-          addNewPage();
-          yPosition = 50;
-        }
-
-        doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
-        yPosition += 10;
-        basicCostAdded = true;
       }
 
       // Insert Documents Collected heading after "Service"
