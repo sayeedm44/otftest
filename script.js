@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let paymentTermsAdded = false;
     let scopeOfWorkAdded = false;
     let documentsCollectedAdded = false;
+    let basicCostAdded = false;
 
     // To keep track of added fields and avoid duplicates
     const addedFields = new Set();
@@ -223,8 +224,8 @@ document.addEventListener("DOMContentLoaded", function () {
         copLopDetailsAdded = true;
       }
 
-      // Insert Terms of Sale heading before "Basic Cost of the Lift"
-      if (!termsOfSaleAdded && labelText.includes("Basic Cost of the Lift")) {
+      // Insert Terms of Sale heading before "Payment Terms"
+      if (!termsOfSaleAdded && labelText.includes("Terms of Sale")) {
         yPosition += 10;
 
         // Check if space is enough for "Terms of Sale" heading
@@ -280,6 +281,21 @@ document.addEventListener("DOMContentLoaded", function () {
         scopeOfWorkAdded = true;
       }
 
+      // Move "Basic Cost of the Lift" addition after Payment Terms
+      if (!basicCostAdded && labelText.includes("Basic Cost of the Lift")) {
+        yPosition += 10;
+
+        // Check if space is enough for "Basic Cost of the Lift" field
+        if (yPosition > 230) {
+          addNewPage();
+          yPosition = 50;
+        }
+
+        doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
+        yPosition += 10;
+        basicCostAdded = true;
+      }
+
       // Insert Documents Collected heading after "Service"
       if (!documentsCollectedAdded && labelText.includes("Service")) {
         yPosition += 10;
@@ -298,20 +314,6 @@ document.addEventListener("DOMContentLoaded", function () {
         yPosition += 10;
         documentsCollectedAdded = true;
       }
-
-      // Add each field label and value with left alignment for Cabin Details
-     // if (
-       // cabinDetailsAdded ||
-       // additionalFeaturesAdded ||
-       // copLopDetailsAdded ||
-       // termsOfSaleAdded ||
-       // paymentTermsAdded ||
-        //scopeOfWorkAdded ||
-        //documentsCollectedAdded
-      //) {
-       // doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
-        //yPosition += 10;
-      //}  
 
       // Handle page overflow
       if (yPosition > 250) {
