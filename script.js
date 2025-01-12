@@ -14,29 +14,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const logo = await loadImageAsBase64("logo.png");
     const cabinImage = await loadImageAsBase64("cabin.png");
 
-    // Function to add an image with aspect ratio
-    function addImageWithAspectRatio(image, x, y, width) {
-      const img = new Image();
-      img.src = image;
-      img.onload = function () {
-        const aspectRatio = img.width / img.height;
-        const height = width / aspectRatio;
-        doc.addImage(image, "PNG", x, y, width, height);
-      };
-    }
-
-    // Retrieve form values to create a PDF title
-    const customerName = document.getElementById("Customername")?.value || "Customer";
-    const city = document.getElementById("City")?.value || "City";
-    const area = document.getElementById("Area")?.value || "Area";
-    const floors = document.getElementById("Floors")?.value || "Floors";
-    const model = document.getElementById("Model")?.value || "Model";
-    const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
-
-    // Helper function to add logo to page
+    // Helper function to add logo to page with specified width and height
     function addLogoToPage() {
       if (logo) {
-        addImageWithAspectRatio(logo, 10, 10, 100); // Set the width to 100 pixels
+        doc.addImage(logo, "PNG", 10, 10, 100, 10); // Set the width to 100px and height to 10px
       }
     }
 
@@ -55,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const titleText = "Brio Elevators OTF Form";
     doc.setFontSize(16);
     const pageWidth = doc.internal.pageSize.getWidth();
-    const titleYPosition = 35; // Adjusted Y position to move the title up
+    const titleYPosition = 25; // Adjusted Y position to move the title up
     doc.text(titleText, pageWidth / 2, titleYPosition, { align: "center" });
 
     // Adjust starting Y position below title
