@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Helper function to add logo to page
     function addLogoToPage() {
       if (logo) {
-        doc.addImage(logo, "PNG", 10, 10, 30, 20); // Adjust the size of the logo (width: 30, height: 20)
+        doc.addImage(logo, "PNG", 10, 10, 20, 15); // Adjust the size of the logo (width: 20, height: 15)
       }
     }
 
