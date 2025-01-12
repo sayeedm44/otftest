@@ -14,6 +14,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const logo = await loadImageAsBase64("logo.png");
     const cabinImage = await loadImageAsBase64("cabin.png");
 
+    // Function to add an image with aspect ratio
+    function addImageWithAspectRatio(image, x, y, width) {
+      const img = new Image();
+      img.src = image;
+      img.onload = function () {
+        const aspectRatio = img.width / img.height;
+        const height = width / aspectRatio;
+        doc.addImage(image, "PNG", x, y, width, height);
+      };
+    }
+
     // Retrieve form values to create a PDF title
     const customerName = document.getElementById("Customername")?.value || "Customer";
     const city = document.getElementById("City")?.value || "City";
@@ -25,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Helper function to add logo to page
     function addLogoToPage() {
       if (logo) {
-        doc.addImage(logo, "PNG", 10, 10, 20, 15); // Adjust the size of the logo (width: 20, height: 15)
+        addImageWithAspectRatio(logo, 10, 10, 100); // Set the width to 100 pixels
       }
     }
 
