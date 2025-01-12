@@ -299,20 +299,6 @@ document.addEventListener("DOMContentLoaded", function () {
         documentsCollectedAdded = true;
       }
 
-      // Add each field label and value with left alignment for Cabin Details
-     // if (
-       // cabinDetailsAdded ||
-       // additionalFeaturesAdded ||
-       // copLopDetailsAdded ||
-       // termsOfSaleAdded ||
-       // paymentTermsAdded ||
-        //scopeOfWorkAdded ||
-        //documentsCollectedAdded
-      //) {
-       // doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
-        //yPosition += 10;
-      //}  
-
       // Handle page overflow
       if (yPosition > 250) {
         addNewPage();
