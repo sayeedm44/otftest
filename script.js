@@ -40,11 +40,11 @@ document.addEventListener("DOMContentLoaded", function () {
     setBackground();
     addLogoToPage();
 
-    // Center title text below the logo
+    // Center title text below the logo and move it up a bit
     const titleText = "Brio Elevators OTF Form";
     doc.setFontSize(16);
     const pageWidth = doc.internal.pageSize.getWidth();
-    const titleYPosition = 45;
+    const titleYPosition = 35; // Adjusted Y position to move the title up
     doc.text(titleText, pageWidth / 2, titleYPosition, { align: "center" });
 
     // Adjust starting Y position below title
@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Form fields formatting for alignment
     const formFields = document.querySelectorAll("input, select, textarea");
 
+    let orderTakenDateAdded = false;
     let orderDetailsAdded = false;
     let cabinDetailsAdded = false;
     let cabinDesignAdded = false;
@@ -121,18 +122,16 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       addedFields.add(uniqueFieldKey);
 
+      // Move "Order Taken Date" to the second page
+      if (labelText.includes("Order Taken Date") && !orderTakenDateAdded) {
+        addNewPage();
+        yPosition = 50; // Reset Y position for the new page
+        orderTakenDateAdded = true;
+      }
+
       // Add each field label and value with left alignment
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
       yPosition += 10;
-
-      // Move "Order Taken Date", "Model", and "Structure" to the second page
-      if (labelText.includes("Order Taken Date") || labelText.includes("Model") || labelText.includes("Structure")) {
-        if (!orderDetailsAdded) {
-          addNewPage();
-          yPosition = 50;
-          orderDetailsAdded = true;
-        }
-      }
 
       // Insert Order Details heading after "Cash & Account Commitments"
       if (!orderDetailsAdded && labelText.includes("Cash & Account Commitments")) {
