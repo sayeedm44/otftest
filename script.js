@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Helper function to add logo to page
     function addLogoToPage() {
       if (logo) {
-        doc.addImage(logo, "PNG", 10, 10, 30, 30); // Fixed position for logo
+        doc.addImage(logo, "PNG", 10, 10, 30, 20); // Adjust the size of the logo (width: 30, height: 20)
       }
     }
 
@@ -124,6 +124,15 @@ document.addEventListener("DOMContentLoaded", function () {
       // Add each field label and value with left alignment
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
       yPosition += 10;
+
+      // Move "Order Taken Date", "Model", and "Structure" to the second page
+      if (labelText.includes("Order Taken Date") || labelText.includes("Model") || labelText.includes("Structure")) {
+        if (!orderDetailsAdded) {
+          addNewPage();
+          yPosition = 50;
+          orderDetailsAdded = true;
+        }
+      }
 
       // Insert Order Details heading after "Cash & Account Commitments"
       if (!orderDetailsAdded && labelText.includes("Cash & Account Commitments")) {
