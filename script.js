@@ -49,6 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
       doc.text(orderDetailsText, pageWidth / 2, 30, { align: "center" });
     }
 
+    // Add Terms of Sale header to the page
+    function addTermsOfSaleHeader() {
+      const termsOfSaleText = "Terms of Sale";
+      doc.setFontSize(14);
+      const pageWidth = doc.internal.pageSize.getWidth();
+      doc.text(termsOfSaleText, pageWidth / 2, 30, { align: "center" });
+    }
+
     // Add logo and background color to the first page
     setBackground();
     addLogoToPage();
@@ -146,6 +154,26 @@ document.addEventListener("DOMContentLoaded", function () {
       // Add each field label and value with left alignment
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
       yPosition += 10;
+
+      // Insert Terms of Sale heading after "Authentication Need:" or before "Promised Delivery in Months from Signing the Drawing:"
+      if (!termsOfSaleAdded && (labelText.includes("Authentication Need") || labelText.includes("Promised Delivery in Months from Signing the Drawing"))) {
+        yPosition += 10;
+
+        // Check if space is enough for "Terms of Sale" heading
+        if (yPosition > 230) {
+          addNewPage();
+          addTermsOfSaleHeader();
+          yPosition = 40;
+        }
+
+        // Center Terms of Sale heading
+        const termsOfSaleText = "Terms of Sale";
+        doc.setFontSize(14);
+        doc.text(termsOfSaleText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+        termsOfSaleAdded = true;
+      }
 
       // Insert Order Details heading after "Cash & Account Commitments"
       if (!orderDetailsAdded && labelText.includes("Cash & Account Commitments")) {
