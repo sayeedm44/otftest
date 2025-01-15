@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
       yPosition += 10;
 
       // Insert Terms of Sale heading after "Authentication Need:" or before "Promised Delivery in Months from Signing the Drawing:"
-      if (!termsOfSaleAdded && (labelText.includes("Authentication Need"))) {
+      if (!termsOfSaleAdded && labelText.includes("Authentication Need")) {
         yPosition += 10;
 
         // Check if space is enough for "Terms of Sale" heading
@@ -167,17 +167,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Center Terms of Sale heading
-        const termsOfSaleText = "Terms of Sale";
-        doc.setFontSize(14);
-        doc.text(termsOfSaleText, pageWidth / 2, yPosition, { align: "center" });
-
+        addTermsOfSaleHeader();
         yPosition += 10;
         termsOfSaleAdded = true;
-      }
 
-      // Add "Promised Delivery in Months from Signing the Drawing:", "Warranty:", and "Service:" after "Terms of Sale"
-      if (termsOfSaleAdded && labelText.includes("Promised Delivery in Months from Signing the Drawing")) {
-        doc.text(`Promised Delivery in Months from Signing the Drawing: ${fieldValue}`, leftIndent, yPosition);
+        // Add "Promised Delivery in Months from Signing the Drawing:", "Warranty:", and "Service:" after "Terms of Sale"
+        doc.text(`Promised Delivery in Months from Signing the Drawing: ${document.getElementById("PromisedDelivery")?.value || "N/A"}`, leftIndent, yPosition);
         yPosition += 10;
         doc.text(`Warranty: ${document.getElementById("Warranty")?.value || "N/A"}`, leftIndent, yPosition);
         yPosition += 10;
@@ -284,27 +279,8 @@ document.addEventListener("DOMContentLoaded", function () {
         copLopDetailsAdded = true;
       }
 
-      // Insert Terms of Sale heading before "Basic Cost of the Lift"
-      if (!termsOfSaleAdded && labelText.includes("Basic Cost of the Lift")) {
-        yPosition += 10;
-
-        // Check if space is enough for "Terms of Sale" heading
-        if (yPosition > 230) {
-          addNewPage();
-          yPosition = 50;
-        }
-
-        // Center Terms of Sale heading
-        const termsOfSaleText = "Terms of Sale";
-        doc.setFontSize(14);
-        doc.text(termsOfSaleText, pageWidth / 2, yPosition, { align: "center" });
-
-        yPosition += 10;
-        termsOfSaleAdded = true;
-      }
-
       // Insert Payment Terms heading after "Terms of Sale"
-      if (termsOfSaleAdded && !paymentTermsAdded) {
+      if (termsOfSaleAdded && !paymentTermsAdded && labelText.includes("Payment Terms")) {
         yPosition += 10;
 
         // Check if space is enough for "Payment Terms" heading
@@ -342,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Insert Documents Collected heading after "Service"
-      if (!documentsCollectedAdded && labelText.includes("Service")) {
+      if (!documentsCollectedAdded && labelText.includes("Documents Collected")) {
         yPosition += 10;
 
         // Check if space is enough for "Documents Collected" heading
