@@ -4,6 +4,16 @@ document.addEventListener("DOMContentLoaded", function () {
   async function downloadPDF() {
     const doc = new jsPDF();
 
+    // Retrieve dynamic values for the PDF title
+    const customerName = document.getElementById("Customername")?.value || "Customer";
+    const city = document.getElementById("City")?.value || "City";
+    const area = document.getElementById("Area")?.value || "Area";
+    const floors = document.getElementById("Floors")?.value || "Floors";
+    const model = document.getElementById("Model")?.value || "Model";
+    
+    // Define the pdfTitle variable
+    const pdfTitle = `${customerName}-OTF-${city}-${area}-${floors}-${model}.pdf`;
+
     // Set the background color of the PDF
     function setBackground() {
       doc.setFillColor("#e9ecef");
