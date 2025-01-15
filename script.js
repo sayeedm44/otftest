@@ -41,6 +41,14 @@ document.addEventListener("DOMContentLoaded", function () {
       addLogoToPage();
     }
 
+    // Add Order Details header to the page
+    function addOrderDetailsHeader() {
+      const orderDetailsText = "Order Details";
+      doc.setFontSize(14);
+      const pageWidth = doc.internal.pageSize.getWidth();
+      doc.text(orderDetailsText, pageWidth / 2, 30, { align: "center" });
+    }
+
     // Add logo and background color to the first page
     setBackground();
     addLogoToPage();
@@ -127,10 +135,11 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       addedFields.add(uniqueFieldKey);
 
-      // Move "Order Taken Date" to the second page
+      // Move "Order Taken Date" to the second page and add Order Details header
       if (labelText.includes("Order Taken Date") && !orderTakenDateAdded) {
         addNewPage();
-        yPosition = 50; // Reset Y position for the new page
+        addOrderDetailsHeader();
+        yPosition = 40; // Reset Y position below the "Order Details" header
         orderTakenDateAdded = true;
       }
 
@@ -145,7 +154,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Check if space is enough for "Order Details" heading
         if (yPosition > 230) {
           addNewPage();
-          yPosition = 50;
+          addOrderDetailsHeader();
+          yPosition = 40;
         }
 
         // Center Order Details heading
