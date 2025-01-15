@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
       yPosition += 10;
 
       // Insert Terms of Sale heading after "Authentication Need:" or before "Promised Delivery in Months from Signing the Drawing:"
-      if (!termsOfSaleAdded && (labelText.includes("Authentication Need") || labelText.includes("Promised Delivery in Months from Signing the Drawing"))) {
+      if (!termsOfSaleAdded && (labelText.includes("Authentication Need"))) {
         yPosition += 10;
 
         // Check if space is enough for "Terms of Sale" heading
@@ -173,6 +173,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         yPosition += 10;
         termsOfSaleAdded = true;
+      }
+
+      // Add "Promised Delivery in Months from Signing the Drawing:", "Warranty:", and "Service:" after "Terms of Sale"
+      if (termsOfSaleAdded && labelText.includes("Promised Delivery in Months from Signing the Drawing")) {
+        doc.text(`Promised Delivery in Months from Signing the Drawing: ${fieldValue}`, leftIndent, yPosition);
+        yPosition += 10;
+        doc.text(`Warranty: ${document.getElementById("Warranty")?.value || "N/A"}`, leftIndent, yPosition);
+        yPosition += 10;
+        doc.text(`Service: ${document.getElementById("Service")?.value || "N/A"}`, leftIndent, yPosition);
+        yPosition += 10;
       }
 
       // Insert Order Details heading after "Cash & Account Commitments"
