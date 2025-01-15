@@ -27,7 +27,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Helper function to add logo to page with specified width and height
     function addLogoToPage() {
       if (logo) {
-        doc.addImage(logo, "PNG", 10, 10, 100, 10); // Set the width to 100px and height to 10px
+        // Adjust the width and height of the logo here
+        const logoWidth = 50; // Set the width of the logo
+        const logoHeight = 20; // Set the height of the logo
+        doc.addImage(logo, "PNG", 10, 10, logoWidth, logoHeight);
       }
     }
 
@@ -46,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const titleText = "Brio Elevators OTF Form";
     doc.setFontSize(16);
     const pageWidth = doc.internal.pageSize.getWidth();
-    const titleYPosition = 25; // Adjusted Y position to move the title up
+    const titleYPosition = 35; // Adjusted Y position to move the title up
     doc.text(titleText, pageWidth / 2, titleYPosition, { align: "center" });
 
     // Adjust starting Y position below title
