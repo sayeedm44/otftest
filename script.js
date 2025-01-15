@@ -117,7 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let additionalFeaturesAdded = false;
     let copLopDetailsAdded = false;
     let termsOfSaleAdded = false;
-    let paymentTermsAdded = false;
     let scopeOfWorkAdded = false;
     let documentsCollectedAdded = false;
 
@@ -155,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
       doc.text(`${labelText.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
       yPosition += 10;
 
-      // Insert Terms of Sale heading after "Authentication Need:" or before "Promised Delivery in Months from Signing the Drawing:"
+      // Insert Terms of Sale heading after "Authentication Need:"
       if (!termsOfSaleAdded && labelText.includes("Authentication Need")) {
         yPosition += 10;
 
@@ -277,25 +276,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         yPosition += 10;
         copLopDetailsAdded = true;
-      }
-
-      // Insert Payment Terms heading after "Terms of Sale"
-      if (termsOfSaleAdded && !paymentTermsAdded && labelText.includes("Payment Terms")) {
-        yPosition += 10;
-
-        // Check if space is enough for "Payment Terms" heading
-        if (yPosition > 230) {
-          addNewPage();
-          yPosition = 50;
-        }
-
-        // Center Payment Terms heading
-        const paymentTermsText = "Payment Terms";
-        doc.setFontSize(14);
-        doc.text(paymentTermsText, pageWidth / 2, yPosition, { align: "center" });
-
-        yPosition += 10;
-        paymentTermsAdded = true;
       }
 
       // Insert Scope of Work heading after "Non Comprehensive AMC Per Annum"
