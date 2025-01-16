@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Insert Payment Terms section immediately after "COP/LOP Details"
-      if (!paymentTermsAdded && labelText.includes("COP/LOP Details")) {
+      if (!paymentTermsAdded && copLopDetailsAdded) {
         yPosition += 10;
 
         // Check if space is enough for "Payment Terms" heading
