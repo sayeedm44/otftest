@@ -57,6 +57,22 @@ document.addEventListener("DOMContentLoaded", function () {
       doc.text(termsOfSaleText, pageWidth / 2, 30, { align: "center" });
     }
 
+    // Add Payment Terms header to the page
+    function addPaymentTermsHeader() {
+      const paymentTermsText = "Payment Terms";
+      doc.setFontSize(14);
+      const pageWidth = doc.internal.pageSize.getWidth();
+      doc.text(paymentTermsText, pageWidth / 2, 30, { align: "center" });
+    }
+
+    // Add Documents Collected header to the page
+    function addDocumentsCollectedHeader() {
+      const documentsCollectedText = "Documents Collected";
+      doc.setFontSize(14);
+      const pageWidth = doc.internal.pageSize.getWidth();
+      doc.text(documentsCollectedText, pageWidth / 2, 30, { align: "center" });
+    }
+
     // Add logo and background color to the first page
     setBackground();
     addLogoToPage();
@@ -117,6 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let additionalFeaturesAdded = false;
     let copLopDetailsAdded = false;
     let termsOfSaleAdded = false;
+    let paymentTermsAdded = false;
     let scopeOfWorkAdded = false;
     let documentsCollectedAdded = false;
 
@@ -169,34 +186,81 @@ document.addEventListener("DOMContentLoaded", function () {
         yPosition += 10;
 
         // Add "Promised Delivery in Months from Signing the Drawing:", "Warranty:", and "Service:" after "Terms of Sale"
-        doc.text(`Promised Delivery in Months from Signing the Drawing: ${document.getElementById("Deliverymonths")?.value || "N/A"}`, leftIndent, yPosition);
+        const deliveryMonths = document.getElementById("Deliverymonths")?.value || "N/A";
+        const warranty = document.getElementById("Warranty")?.value || "N/A";
+        const service = document.getElementById("Service")?.value || "N/A";
+
+        doc.text(`Promised Delivery in Months from Signing the Drawing: ${deliveryMonths}`, leftIndent, yPosition);
         yPosition += 10;
-        doc.text(`Warranty: ${document.getElementById("Warranty")?.value || "N/A"}`, leftIndent, yPosition);
+        doc.text(`Warranty: ${warranty}`, leftIndent, yPosition);
         yPosition += 10;
-        doc.text(`Service: ${document.getElementById("Service")?.value || "N/A"}`, leftIndent, yPosition);
+        doc.text(`Service: ${service}`, leftIndent, yPosition);
         yPosition += 10;
 
         termsOfSaleAdded = true;
       }
 
-      // Insert Order Details heading after "Cash & Account Commitments"
-      if (!orderDetailsAdded && labelText.includes("Cash & Account Commitments")) {
+      // Insert COP/LOP Details heading after "Voice Announcer"
+      if (!copLopDetailsAdded && labelText.includes("Voice Announcer")) {
         yPosition += 10;
 
-        // Check if space is enough for "Order Details" heading
+        // Check if space is enough for "COP/LOP Details" heading
         if (yPosition > 230) {
           addNewPage();
-          addOrderDetailsHeader();
+          yPosition = 40; // Adjusted Y position below the logo
+        }
+
+        // Center COP/LOP Details heading
+        const copLopDetailsText = "COP/LOP Details";
+        doc.setFontSize(14);
+        doc.text(copLopDetailsText, pageWidth / 2, yPosition, { align: "center" });
+
+        yPosition += 10;
+        copLopDetailsAdded = true;
+      }
+
+      // Insert Payment Terms heading after "COP/LOP Details"
+      if (!paymentTermsAdded && labelText.includes("Voice Announcer")) {
+        yPosition += 10;
+
+        // Check if space is enough for "Payment Terms" heading
+        if (yPosition > 230) {
+          addNewPage();
           yPosition = 40;
         }
 
-        // Center Order Details heading
-        const orderDetailsText = "Order Details";
-        doc.setFontSize(14);
-        doc.text(orderDetailsText, pageWidth / 2, yPosition, { align: "center" });
-
+        // Center Payment Terms heading
+        addPaymentTermsHeader();
         yPosition += 10;
-        orderDetailsAdded = true;
+
+        // Add Payment Terms fields
+        const paymentTermsFields = [
+          "Basic Cost of the Lift",
+          "Structure Cost",
+          "Installation Charges",
+          "Transportation Charges",
+          "GST",
+          "Cash & Account Commitments",
+          "Advance Payment Collected",
+          "While Placing Order",
+          "After signing the drawings",
+          "Readiness Notification from Factory",
+          "Material Reaching Site",
+          "Comprehensive AMC Per Annum",
+          "Non Comprehensive AMC Per Annum"
+        ];
+
+        paymentTermsFields.forEach((fieldId) => {
+          const field = document.getElementById(fieldId.replace(/\s+/g, ''));
+          if (field) {
+            const fieldLabel = document.querySelector(`label[for="${field.id}"]`).innerText;
+            const fieldValue = field.value || "N/A";
+            doc.text(`${fieldLabel.replace(/:+$/, '')}: ${fieldValue}`, leftIndent, yPosition);
+            yPosition += 10;
+          }
+        });
+
+        paymentTermsAdded = true;
       }
 
       // Insert Cabin Details heading after "No of Floors" in Order Details
@@ -259,25 +323,6 @@ document.addEventListener("DOMContentLoaded", function () {
         additionalFeaturesAdded = true;
       }
 
-      // Insert COP/LOP Details heading after "Voice Announcer"
-      if (!copLopDetailsAdded && labelText.includes("Voice Announcer")) {
-        yPosition += 10;
-
-        // Check if space is enough for "COP/LOP Details" heading
-        if (yPosition > 230) {
-          addNewPage();
-          yPosition = 40; // Adjusted Y position below the logo
-        }
-
-        // Center COP/LOP Details heading
-        const copLopDetailsText = "COP/LOP Details";
-        doc.setFontSize(14);
-        doc.text(copLopDetailsText, pageWidth / 2, yPosition, { align: "center" });
-
-        yPosition += 10;
-        copLopDetailsAdded = true;
-      }
-
       // Insert Scope of Work heading after "Non Comprehensive AMC Per Annum"
       if (!scopeOfWorkAdded && labelText.includes("Non Comprehensive AMC Per Annum")) {
         yPosition += 10;
@@ -297,22 +342,20 @@ document.addEventListener("DOMContentLoaded", function () {
         scopeOfWorkAdded = true;
       }
 
-      // Insert Documents Collected heading after "Service"
-      if (!documentsCollectedAdded && labelText.includes("Documents Collected")) {
+      // Insert Documents Collected heading before "Original Signed Quotation:"
+      if (!documentsCollectedAdded && labelText.includes("Original Signed Quotation")) {
         yPosition += 10;
 
         // Check if space is enough for "Documents Collected" heading
         if (yPosition > 230) {
           addNewPage();
-          yPosition = 50;
+          yPosition = 40;
         }
 
         // Center Documents Collected heading
-        const documentsCollectedText = "Documents Collected";
-        doc.setFontSize(14);
-        doc.text(documentsCollectedText, pageWidth / 2, yPosition, { align: "center" });
-
+        addDocumentsCollectedHeader();
         yPosition += 10;
+
         documentsCollectedAdded = true;
       }
 
