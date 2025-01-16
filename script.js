@@ -266,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Check if space is enough for "COP/LOP Details" heading
         if (yPosition > 230) {
           addNewPage();
-          yPosition = 50;
+          yPosition = 40; // Adjusted Y position below the logo
         }
 
         // Center COP/LOP Details heading
