@@ -219,8 +219,8 @@ document.addEventListener("DOMContentLoaded", function () {
         copLopDetailsAdded = true;
       }
 
-      // Insert Payment Terms heading after "COP/LOP Details"
-      if (!paymentTermsAdded && labelText.includes("Voice Announcer")) {
+      // Insert Payment Terms section immediately after "COP/LOP Details"
+      if (!paymentTermsAdded && labelText.includes("COP/LOP Details")) {
         yPosition += 10;
 
         // Check if space is enough for "Payment Terms" heading
